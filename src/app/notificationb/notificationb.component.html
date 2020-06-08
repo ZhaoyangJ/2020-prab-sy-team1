@@ -1,0 +1,96 @@
+<div class="notification home">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6">
+                <h2 class="notification title">
+                    <img class="jpg" src="../../assets/icon.jpg">
+                    <span>reminder</span>
+                </h2>
+            </div>
+            <div class="col-md-6">
+                <form class="example-form">
+                    <mat-form-field class="example-full-width">
+                        <input matInput placeholder="add reminder" #newTodo>
+                    </mat-form-field>
+                    <button mat-raised-button color="primary" type="submit" (click)= "addNotication(newNotification)">add</button>
+                </form>
+            </div>
+        </div>
+        <div class="row mt-4">
+            <div class="col-md-12">
+                <mat-card class="d-flex">
+                    <div class="example-container">
+                        <h5>booking reminder</h5>
+                        <div
+                        cdkDropList
+                        #pendingList="cdkDropList"
+                        [cdkDropListData]="data.pendings"
+                        [cdkDropListConnectedTo]="[progressList]"
+                        class="example-list"
+                        (cdkDropListDropped)="drop($event)">
+                        <div class="example-box" *ngFor="let item of data.pendings" cdkDrag>
+                            <img class="svg" src="../../assets/svg/clock.svg">
+                            <span class="todo-title">{{item.todo}}</span>
+                            <div class="button">
+                                <button mat-icon-button color="warn" (click)="removeNotification(item.id)">
+                                  <mat-icon>delete</mat-icon>  
+                                </button>
+                            </div>
+                        </div>
+                        <div class="text-center pt-3" *ngIf="data.pendings?.length === 0"><small>No pending item found</small></div>
+                    </div>
+                    </div>
+
+                    <div class="example-container">
+                        <h5>Medication reminder</h5>
+                        <div
+                          cdkDropList
+                          #progressList="cdkDropList"
+                          [cdkDropListData]="data.inProgress"
+                          [cdkDropListConnectedTo]="[pendingList, doneList]"
+                          class="example-list"
+                          (cdkDropListDropped)="drop($event)">
+                          <div class="example-box" *ngFor="let item of data.inProgress" cdkDrag>
+                             <img class="svg" src="../../assets/svg/clock.svg">
+                             <span class="todo-title">{{item.todo}}</span>
+                             <div class="button">
+                                 <button mat-icon-button color="warn"(click)="removeNotification(item.id)">
+                                     <mat-icon>delete</mat-icon>
+                                 </button>
+                             </div> 
+                          </div>
+                          <div class="text-center pt-3" *ngIf="data.inProgress?.length === 0"><small>No pending item found</small></div>
+                        </div>
+                    </div>
+
+                    <div class="example-container">
+                        <h5>return visit reminder</h5>
+                        <div
+                          cdkDropList
+                          #progressList="cdkDropList"
+                          [cdkDropListData]="data.inProgress"
+                          [cdkDropListConnectedTo]="[pendingList, doneList]"
+                          class="example-list"
+                          (cdkDropListDropped)="drop($event)">
+                          <div class="example-box" *ngFor="let item of data.inProgress" cdkDrag>
+                             <img class="svg" src="../../assets/svg/clock.svg">
+                             <span class="todo-title">{{item.todo}}</span>
+                             <div class="button">
+                                 <button mat-icon-button color="warn"(click)="removeNotification(item.id)">
+                                     <mat-icon>delete</mat-icon>
+                                 </button>
+                             </div> 
+                          </div>
+                          <div class="text-center pt-3" *ngIf="data.inProgress?.length === 0"><small>No pending item found</small></div>
+                        </div>
+                    </div>
+                </mat-card>     
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12 text-center mt-2">
+                <small>Copyright 2020 peterian notification</small>
+            </div>
+        </div>
+    </div>
+</div>
