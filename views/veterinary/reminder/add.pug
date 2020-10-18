@@ -1,0 +1,63 @@
+extends ../../layout
+
+block styleblock
+    link(rel="stylesheet", href="/plugins/gijgo/gijgo.min.css")
+
+block content
+    include ../header.pug
+    .container-fluid.pmargin-vertical-20(style="width: 90%")
+        .card.scard
+            .card-body
+                .card-title.scard-title.underline-2 Add reminder for #{pet.name}
+                .content
+                    form(action="/veterinary/reminder/add.html" method="POST")#reminder-form
+                        .form-group
+                            label(for="title").field-label Title
+                            input(type="hidden" name="pet_id" value=pet.id)
+                            input(type="hidden" name="reminder_id" value=vid)
+                            input(type="text" name="title")#title.form-control
+                            small#title-error.text-danger
+                        .form-group
+                            label(for="message").field-label Message
+                            textarea(name="message" style="resize:none;")#message.form-control
+                        .form-group
+                            label(for="reminder-datetime").field-label Reminder Date Time
+                            input(type="datetime" name="reminder_datetime")#reminder-datetime.form-control
+                            small#reminder-datetime-error.text-danger
+                        .form-group
+                            button(type="button").btn.lbtn#add-reminder-btn Add
+                            a(href="/veterinary/reminder/index.html/"+pet.id).btn.lbtn Go back
+block scriptblock
+    script(src="/plugins/gijgo/gijgo.min.js")
+    script.
+        let today = new Date(
+            new Date().getFullYear(),
+            new Date().getMonth(),
+            new Date().getDate()
+        );
+        $("#reminder-datetime").datetimepicker({
+            footer: true,
+            modal: true,
+            format: "yyyy-mm-dd HH:MM:ss",
+            minDate: today,
+            uiLibrary: "bootstrap"
+        });
+        $(function() {
+            $("#add-reminder-btn").click(function() {
+                let title = $("#title").val();
+                let reminderDatetime = $("#reminder-datetime").val();
+                if (!title) {
+                    $("#title-error").html("Please enter reminder title.");
+                    return;
+                } else {
+                    $("#title-error").html("");
+                }
+                if (!reminderDatetime) {
+                    $("#reminder-datetime-error").html("Please choose reminder date time.");
+                    return;
+                } else {
+                    $("#reminder-datetime-error").html("");
+                }
+                $("#reminder-form").submit();
+            });
+        });

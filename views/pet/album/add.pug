@@ -1,0 +1,43 @@
+extends ../../layout
+
+block styleblock
+  style(type="text/css").
+    
+block content
+  include ../../header.pug
+  .container-fluid.pmargin-vertical-20.w-75
+    nav.bg-white(aria-label="breadcrumb")
+        ol.breadcrumb.bg-white
+            li.breadcrumb-item
+                a.link.breadcrumb-item-font-size(href="/pet/index.html") My pet
+            li.breadcrumb-item
+                a.link.breadcrumb-item-font-size(href="/pet/album/"+pet.id+"/index.html") #{pet.name} album
+            li.breadcrumb-item.active(aria-current="page") Add album
+    .card.scard
+        .card-body
+            .content
+                form#add-pet-album-form(action="/pet/album/add.html" method="POST")
+                    .form-group
+                        label(for="albumName" class="field-label") Album Name
+                        input(type="text" class="form-control" id="albumName" name="name")
+                        input(type="hidden" class="form-control" name="pet_id" value=pet.id)
+                        small(id="album-error-tip" class="form-text text-danger")
+                    .form-group
+                        label(for="description" class="field-label") Album Description
+                        textarea(class="form-control" name="description" id="description")
+                    .form-group
+                        button(type="button" class="btn lbtn" id="add-album-btn") Add
+block scriptblock
+    script(type="text/javascript").
+        $(function() {
+            $("#add-album-btn").on("click", function() {
+                let albumName = $("#albumName").val();
+                if (!albumName) {
+                    $("#album-error-tip").html("Album name can't be empty!");
+                    return;
+                }
+                $("#add-pet-album-form").submit();
+            });
+        });
+                
+                    

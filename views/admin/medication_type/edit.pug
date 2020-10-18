@@ -1,0 +1,49 @@
+extends ../../layout
+
+block content
+    include ../header.pug
+    .container-fluid.pmargin-vertical-20(style="width: 60%")
+        .card.scard
+            .card-body
+                .card-title.scard-title.underline-2 Medication Type Edit
+                .content
+                    form#medication-type-form(action="/admin/medication_type/edit.html" method="POST")
+                        .form-group
+                            label.field-label(for="name") Medication Type
+                            input(type="hidden" name="mid" value=medicationType.id)
+                            input#name.form-control(type="text" name="name" placeholder="Medication type..." value=medicationType.name)
+                            input#origin-product-name(type="hidden" value=medicationType.name)
+                            small#name-error-tip.text-danger
+                        .form-group
+                            label.field-label(for="description") Description
+                            input#description.form-control(type="text" name="description" placeholder="description" value=medicationType.description)
+                        .form-group
+                            button#update-medication-type-btn.btn.lbtn(type="button") Update
+                            a.btn.lbtn.ml-2(href="/admin/medication_type/index.html") Back
+block scriptblock
+    script(text="text/javascript").
+        $(function() {
+            $("#update-medication-type-btn").on("click", async function() {
+                let name = $("#name").val();
+                let originName = $("#origin-product-name").val();
+                let description = $("#description").val();
+                if (!name) {
+                    $("#name-error-tip").html("Medication type can't be empty!");
+                    return;
+                } else {
+                    if (name !== originName) {
+                        let res = await request({
+                            url: `/admin/medication_type/exists.json/${name}`,
+                            method: "GET"
+                        });
+                        if (200 !== res.code) {
+                            $("#name-error-tip").html(res.msg);
+                            return;
+                        } else {
+                            $("#name-error-tip").html("");
+                        }
+                    }
+                }
+                $("#medication-type-form").submit();
+            });
+        });

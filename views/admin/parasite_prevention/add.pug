@@ -1,0 +1,44 @@
+extends ../../layout
+
+block content
+  include ../header.pug
+  .container-fluid.pmargin-vertical-20(style="width: 60%")
+        .card.scard
+            .card-body
+                .card-title.scard-title.underline-2 Add Pet Parasite Prevention Product
+                .content
+                    form(action="/admin/pet_parasite_prevention_product/add.html" id="product-form" method="POST")
+                        .form-group
+                            label.field-label(for="productName") Name
+                            input#productName.form-control(type="text" name="name" placeholder="pet parasite prevention product name")
+                            small#name-error-tip.text-danger
+                        .form-group
+                            label.field-label(for="description") Description
+                            input#description.form-control(type="text" name="description" placeholder="description")
+                        .form-group
+                            button#add-product-btn.btn.lbtn(type="button") Add
+                            a.btn.lbtn.ml-2(href="/admin/pet_parasite_prevention_product/index.html") Back
+block scriptblock
+    script(text="text/javascript").
+        $(function() {
+            $("#add-product-btn").on("click", async function() {
+                let productName = $("#productName").val();
+                let description = $("#description").val();
+                if (!productName) {
+                    $("#name-error-tip").html("Pet parasite prevention product name can't be empty!");
+                    return;
+                } else {
+                    let res = await request({
+                        url: `/admin/pet_parasite_prevention_product/exists.json/${productName}`,
+                        method: "GET"
+                    });
+                    if (200 !== res.code) {
+                        $("#name-error-tip").html(res.msg);
+                        return;
+                    } else {
+                        $("#name-error-tip").html("");
+                    }
+                }
+                $("#product-form").submit();
+            });
+        });

@@ -1,0 +1,15 @@
+{
+    "file_choose_button_name": "Choose file",
+    "file_upload_button_name": "Upload",
+    "confirm_upload_button_name": "Confirm upload",
+    "continue_choose_button_name": "Continue choose",
+    "drag_box_tip": "Or drag the file here",
+    "file_choose_tip": "Click to choose file",
+    "status_info": "Select {number} files, {total} in total.",
+    "file_size_exceed_tip": "The file {filename} is too large",
+    "delete_button_tip": "Delete",
+    "upload_failure_tip": "Upload file failure, please try again",
+    "file_upload_failure_tip": "File({filename}) upload failure",
+    "file_upload_success_tip": "File upload successfully, file url is: {url}",
+    "empty_file_upload_tip": "Please choose one file to upload"
+}

@@ -1,0 +1,68 @@
+extends ../../layout
+
+block styleblock
+  link(rel="stylesheet" href="/css/upload.css")
+  style(type="text/css").
+    .operation-pane {
+        position: relative;
+        background-color: rgba(0,0,0,0.7);
+        color: white;
+        bottom: 70px;
+        height: 70px;
+        padding: 10px;
+        display: none;
+    }
+    .operation-pane a:hover {
+        color: tomato !important; 
+    }
+    .img-info {
+        font-size: 0.8em;
+    }
+block content
+    include ../../header.pug
+    .container-fluid.pmargin-vertical-20.w-75
+        nav.bg-white(aria-label="breadcrumb")
+            ol.breadcrumb.bg-white
+                li.breadcrumb-item
+                    a.link.breadcrumb-item-font-size(href="/pet/detail.html/"+album.petId)=album.petName
+                li.breadcrumb-item.active(aria-current="page") #{album.petName} album
+        .card.scard
+            .card-body
+                .underline-2.pb-2
+                if images && images.length > 0
+                    #image-preview.image-preview
+                        for image in images
+                            .img-item.mt-3.mr-3.border(title=image.name)
+                                img(src=image.url style="cursor:pointer;" title=image.name data-description=image.description)
+                                .operation-pane
+                                    .white-color.img-info.text-truncate(style="width: 10rem;")=image.name
+                                    .white-color.img-info.mt-2=image.create_at
+                else
+                    .alert.alert-warning Not images found!
+    #image-preview-modal.modal(style="width:100% !important;")
+        .modal-dialog
+            .modal-content.border-0(style="background-color: rgba(0,0,0,.5);")
+                .modal-header.underline-2
+                    .text-truncate(style="width:25rem;border:")
+                        h5.modal-title.text-white
+                    button.close(type="button", data-dismiss="modal", aria-label="Close")
+                        span.text-white(aria-hidden="true") ×
+                .modal-body
+                .modal-footer.border-0.text-white
+block scriptblock
+    script(src="/js/image_preview.js")
+    script(type="text/javascript").
+        $(function() {
+            $("#image-preview").find(".img-item img").click(function() {
+                let imageUrl = $(this).attr("src");
+                let title = $(this).attr("title");
+                let description = $(this).attr("data-description");
+                $("#image-preview-modal").find(".modal-title").html(title);
+                $("#image-preview-modal").find(".modal-body").html(`<img src="${imageUrl}" />`);
+                $("#image-preview-modal").find(".modal-footer").html(description);
+                $("#image-preview-modal").modal({
+                    show: true
+                });
+            });
+        });        
+                    

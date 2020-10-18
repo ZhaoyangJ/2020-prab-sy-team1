@@ -1,0 +1,47 @@
+extends ../layout
+
+block styleblock
+    link(rel="stylesheet" href="/css/upload.css")
+
+block content
+    .container(style="width:70%")
+        .card.mb-3.lbox
+            .row.no-gutters
+                .col-md-4
+                    .lbox-left
+                        .lbox-title
+                            span.icon.iconfont.icon-doctor(style="font-size:2em;")
+                        .lbox-text-title Veterinary Register
+                .col-md-8
+                    .card-body
+                        form
+                            .row
+                                .col-md-6.d-flex.justify-content-center
+                                    .form-group
+                                        input#img-file.img-file(type="file")
+                                        #image-preview.image-preview
+                                            #upload-img-btn.upload-img-btn.border.mt-3(title="Click to choose your avatar")
+                                                span.icon.iconfont.icon-album.primary-color
+                                        small#avatar-error-tip.text-danger
+                                        p.text-center.mt-4
+                                            button#choose-image-btn.btn.lbtn(type="button") Choose image
+                                .col-md-6
+                                    .form-group
+                                        label.field-label(for="email") Email
+                                        input#email.form-control(type="email" name="email")
+                                        small#email-error-tip.text-danger
+                                    .form-group
+                                        label.field-label(for="password") Password
+                                        input#password.form-control(type="password" name="password")
+                                        small#password-error-tip.text-danger
+                                    .form-group
+                                        label.field-label(for="introduction") Introduction
+                                        textarea#introduction.form-control(name="introduction" style="resize:none;")
+                                        p.text-right
+                                            a(href="/veterinary/login.html" class="link") &gt;&gt;Login
+                            .form-group.text-right
+                                small#error-tips.text-danger
+                                button#register-btn.btn.lbtn(type="button") Register
+block scriptblock
+    script(type="text/javascript" src="/js/veterinary/avatar.js")
+    script(type="text/javascript" src="/js/veterinary/register.js")

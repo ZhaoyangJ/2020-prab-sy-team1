@@ -1,0 +1,50 @@
+extends ../../../layout
+
+block styleblock
+    style(type="text/css").
+
+block content
+    include ../../../header.pug
+    .container-fluid.pmargin-vertical-20.w-75
+        nav.bg-white(aria-label="breadcrumb")
+            ol.breadcrumb.bg-white
+                li.breadcrumb-item
+                    a.link.breadcrumb-item-font-size(href="/pet/index.html") My pet
+                li.breadcrumb-item
+                    a.link.breadcrumb-item-font-size(href="/pet/album/"+album.petId+"/index.html") #{album.petName}
+                li.breadcrumb-item
+                    a.link.breadcrumb-item-font-size(href="/pet/album/edit.html/"+album.id) #{album.name} album
+                    input(type="hidden" id="albumId" value=album.id)
+                li.breadcrumb-item.active(aria-current="page") Edi image
+        .card.scard
+            .card-body
+                .content
+                    .row
+                        .col-md-6
+                            img.img-fluid.img-thumbnail.rounded(src=image.url)
+                        .col-md-6
+                            form#update-pet-image-form(action="/pet/image/edit.html" method="POST")
+                                .form-group
+                                    label(for="imageName" class="field-label") Image Name
+                                    input(type="text" class="form-control" id="imageName" name="name" value=image.name)
+                                    input(type="hidden" name="imageId" value=image.id)
+                                    small(id="image-name-error-tip" class="form-text text-danger")
+                                .form-group
+                                    label(for="description" class="field-label") Image Description
+                                    textarea(class="form-control" name="description" id="description")=image.description
+                                .form-group
+                                    button(type="button" class="btn lbtn" id="update-image-btn") Modify
+                        
+block scriptblock
+    script(type="text/javascript").
+        $(function() {
+            $("#update-image-btn").click(function() {
+                let imageName = $("#imageName").val();
+                if (!imageName) {
+                    $("#image-name-error-tip").html("Image name can't be empty!");
+                    return;
+                }
+                $("#update-pet-image-form").submit();
+            });
+        });
+

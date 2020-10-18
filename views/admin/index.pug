@@ -1,0 +1,34 @@
+extends ../layout
+
+block content
+  include header.pug
+  .container-fluid.pmargin-vertical-20(style="width: 60%")
+    .card.scard
+      .card-body
+        .card-title.scard-title.underline-2 Profile
+        .content
+          #tips
+          form
+            .row
+              .col-md-6
+                .form-group
+                  label(for="username" class="field-label") Username
+                  input.border-0(type="text" class="form-control" disabled value=admin.username)
+              .col-md-6
+                .form-group
+                  label(for="name" class="field-label") Name
+                  input.border-0(type="text" disabled class="form-control" value=admin.name)
+            .row
+              .col-md-6
+                .form-group
+                  label(for="sex" class="field-label") Sex
+                  input.border-0(type="text" disabled class="form-control" value=admin.sex)
+              .col-md-6
+                .form-group
+                  label(for="email" class="field-label") Email
+                  input.border-0(type="email" disabled class="form-control" value=admin.email)
+            .row
+              .col-md-6
+                .form-group
+                  label(for="address" class="field-label") Adress
+                  input.border-0(type="text" class="form-control" disabled value=admin.address)

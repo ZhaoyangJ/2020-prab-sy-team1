@@ -1,0 +1,23 @@
+extends ../layout
+
+block content
+    include header.pug
+    .container-fluid.w-75.mt-3
+        .card.scard
+            .card-body
+                .card-title.scard-title.underline-2 Veterinary Profile Edit
+                .row
+                    .col-md-3
+                        .avatar(style="height: 150px;")
+                            img(src=veterinary.photo)
+                    .col-md-9
+                        form(action="/veterinary/profile/edit.html" method="POST")
+                            .form-group
+                                label.field-label Email
+                                input.form-control(type="email" disabled value=veterinary.email)
+                                input(type="hidden" name="veterinaryId" value=veterinary.id)
+                            .form-group
+                                label.field-label(for="introduction") Introduction
+                                textarea#introduction.form-control(style="resize:none;" name="introduction")=veterinary.introduction
+                            .form-group
+                                button.btn.lbtn(type="submit") Update

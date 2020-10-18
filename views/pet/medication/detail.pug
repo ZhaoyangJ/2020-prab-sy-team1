@@ -1,0 +1,49 @@
+extends ../../layout
+
+block content
+    include ../../header.pug
+    .container-fluid.pmargin-vertical-20(style="width: 90%")
+        if medication
+            nav.bg-white(aria-label="breadcrumb")
+                ol.breadcrumb.bg-white
+                    li.breadcrumb-item
+                        a.link.breadcrumb-item-font-size(href="/pet/edit.html/"+medication.pet_id)=medication.petName
+                    li.breadcrumb-item
+                        a.link.breadcrumb-item-font-size(href="/pet/medication/"+medication.pet_id+"/lists.html/") #{medication.petName} medication lists
+                    li.breadcrumb-item.active(aria-current="page") #{medication.petName}'s medication detail
+            .card.scard
+                .card-body
+                    .content
+                        form
+                            .form-group
+                                label.field-label Pet Name
+                                input(type="text" disabled value=medication.petName).form-control.border-0
+                            .form-group
+                                label.field-label Owner
+                                input(type="text" disabled value=medication.customer).form-control.border-0
+                            .form-group
+                                label.field-label Symptom Description
+                                textarea(disabled).form-control.border-0=medication.symptom_description
+                            .form-group
+                                label.field-label Appointment Date
+                                input(type="text" disabled value=medication.appointment_date).form-control.border-0
+                            .form-group
+                                label.field-label Appointment Time Period
+                                input(type="text" disabled value=medication.appointment_time_period).form-control.border-0
+                            .form-group
+                                label.field-label Veterinary Contact
+                                input(type="text" disabled value=medication.veterinary).form-control.border-0
+                            .form-group
+                                label.field-label Medication Type
+                                input(type="text" disabled value=medication.medication_type).form-control.border-0
+                            .form-group
+                                label.field-label Medication Duration
+                                input(type="text" disabled value=medication.medication_duration).form-control.border-0
+                            .form-group
+                                label.field-label Medication Date
+                                input(type="text" disabled value=medication.medication_date).form-control.border-0
+                            .form-group
+                                a(href="/pet/medication/"+medication.pet_id+"/lists.html").btn.lbtn Go Back
+        else
+            .alert.alert-warning Not found the medical history record!
+                    

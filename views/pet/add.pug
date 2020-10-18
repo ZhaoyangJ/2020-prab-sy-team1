@@ -1,0 +1,39 @@
+extends ../layout
+
+block content
+    include ../header.pug
+    .container-fluid.pmargin-vertical-20(style="width: 60%")
+        .card.scard
+            .card-body
+                .card-title.scard-title.underline-2 Add pet
+                .content
+                    form#add-pet-form(action="/pet/add.html" method="POST")
+                        .form-group
+                            label(for="petCategory" class="field-label") Pet Category
+                            select(class="form-control" name="pet_category_id" id="petCategory")
+                                for petCategory in petCategories
+                                    option(value=petCategory.id)=petCategory.name
+                        .form-group
+                            label(for="petName" class="field-label") Pet Name
+                            input(type="text" class="form-control" id="petName" name="name")
+                            input(type="hidden" class="form-control" name="owner_id" value=cid)
+                        .form-group
+                            label(for="sex" class="field-label") Gender
+                            select(class="form-control" name="sex" id="sex")
+                                option(value="Male" selected) Male
+                                option(value="Female") Female
+                        .form-group
+                            label(for="weight" class="field-label") Weight (in kg)
+                            input(type="number" class="form-control" name="weight" id="weight")
+                            small(id="weight-error-tip" class="form-text text-danger")
+                        .form-group
+                            label(for="dateOfBirth" class="field-label") Date Of Birth
+                            input(type="date" class="form-control" name="date_of_birth" id="dateOfBirth")
+                        .form-group
+                            label(for="husbandryInfo" class="field-label") Husbandry
+                            textarea(class="form-control" name="husbandry_info" id="husbandryInfo")
+                        .form-group
+                            small(id="error-tips" class="form-text text-danger")
+                            button(type="button" class="btn lbtn" id="add-btn") Add
+block scriptblock
+    script(text="text/javascript" src="/js/pet.js")

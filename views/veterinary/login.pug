@@ -1,0 +1,25 @@
+extends ../layout
+block content
+    .container(style="width:60%")
+        .card.mb-3.lbox
+            .row.no-gutters
+                .col-md-4
+                    .lbox-left
+                        .lbox-title
+                            span.icon.iconfont.icon-doctor(style="font-size:2em;")
+                        .lbox-text-title Veterinary Login
+                .col-md-8
+                    .card-body
+                        form(action="/veterinary/login.html", method="POST")
+                            .form-group
+                                label.field-label(for="email") Email
+                                input.form-control(type="email" id="email" name="email")
+                            .form-group
+                                label.field-label(for="password") Password
+                                input.form-control(type="password" id="password" name="password")
+                                p.text-right
+                                    a.link(href="/veterinary/register.html") &gt;&gt;Register
+                            .form-group
+                                small.text-danger(id="error-tips")
+                                button.btn.lbtn(type="submit" id="login-btn") Login
+                                small.text-danger=error

@@ -1,0 +1,33 @@
+extends ../../layout
+
+block content
+    include ../header.pug
+    .container-fluid.pmargin-vertical-20(style="width: 60%")
+        .card.scard
+            .card-body
+                .card-title.scard-title.underline-2 Diagnosings
+                .content
+                    a(href="/veterinary/diagnosing/add.html").btn.lbtn.mb-2 Add
+                    //- form(action="/veterinary/medication_type/index.html" method="GET").form-inline
+                    //-   .form-group.mx-sm-3.mb-2
+                    //-     input(type="text" name="q" placeholder="Medication type...").form-control
+                    //-   button(type="submit").btn.lbtn.mb-2  Search
+                    if diagnosings && diagnosings.length > 0
+                        table.table
+                            thead
+                                tr
+                                    td Diagnosing Name
+                                    td Symptom Name
+                                    td Opeartion
+                            tbody
+                                for diagnosing in diagnosings
+                                    tr
+                                        td
+                                            .text-truncate=diagnosing.name
+                                        td
+                                            .text-truncate=diagnosing.symptomName
+                                        td
+                                            a(href="/veterinary/diagnosing/edit.html/" + diagnosing.id).btn.lbtn.btn-sm Edit
+                                            a(href="/veterinary/diagnosing/delete.html/" + diagnosing.id).btn.btn-danger.btn-sm.no-radius.ml-2 Del
+                    else
+                        .alert.alert-danger No diagnosings found!

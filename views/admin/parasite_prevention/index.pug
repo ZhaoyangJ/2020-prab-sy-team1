@@ -1,0 +1,34 @@
+extends ../../layout
+
+block content
+  include ../header.pug
+  .container-fluid.pmargin-vertical-20(style="width: 60%")
+        .card.scard
+            .card-body
+                .card-title.scard-title.underline-2 Pet Parasite Prevention Products
+                .content
+                  .row
+                    form(action="/admin/pet_parasite_prevention_product/index.html" method="GET").form-inline
+                      .form-group.mx-sm-3.mb-2
+                        input(type="text" name="q" placeholder="pet parasite prevention product name...").form-control
+                      button(type="submit").btn.lbtn.mb-2  Search
+                      a(href="/admin/pet_parasite_prevention_product/add.html" style="margin-left: 5px;").btn.lbtn.mb-2  Add
+                  if petParasitePreventionProducts && petParasitePreventionProducts.length > 0
+                    table.table
+                      thead
+                        tr
+                          td Name
+                          td Description
+                          td Create Date
+                          td Opeartion
+                      tbody
+                        for product in petParasitePreventionProducts
+                          tr
+                            td=product.name
+                            td=product.description
+                            td=product.create_at
+                            td
+                              a(href="/admin/pet_parasite_prevention_product/edit.html/" + product.id).btn.lbtn.btn-sm Edit
+                              a(style="margin-left: 5px;" href="/admin/pet_parasite_prevention_product/delete.html/" + product.id).btn.btn-danger.btn-sm.no-radius Del
+                  else
+                    .alert.alert-danger No pet parasite prevention products found!

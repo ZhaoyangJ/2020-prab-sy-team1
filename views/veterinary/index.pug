@@ -1,0 +1,23 @@
+extends ../layout
+
+block content
+    include header.pug
+    .container-fluid.w-75.mt-3
+        .card.scard
+            .card-body
+                .card-title.scard-title.underline-2 Veterinary Profile
+                .row
+                    .col-md-3
+                        .avatar(style="height: 150px;")
+                            img(src=veterinary.photo)
+                    .col-md-9
+                        form
+                            .form-group
+                                label.field-label Email
+                                input.form-control.border-0(type="email" disabled value=veterinary.email)
+                            .form-group
+                                label.field-label Introduction
+                                textarea.form-control.border-0(disabled style="resize:none;")=veterinary.introduction
+                            .form-group
+                                label.field-label(for="createAt") Create At
+                                input.form-control.border-0(type="text" disabled value=veterinary.create_at)

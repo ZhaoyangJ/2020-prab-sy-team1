@@ -1,0 +1,65 @@
+extends ../layout
+
+block styleblock
+  style(type="text/css").
+    
+block content
+  include ../header.pug
+  .container-fluid.pmargin-vertical-20.w-75
+    .row
+        .col-md-3
+            .list-group
+                a.list-group-item.list-group-item-action(href="/pet/album/"+pet.id+"/index.html") Pet Album
+                a.list-group-item.list-group-item-action(href="/pet/medical_history/"+pet.id+"/lists.html") Pet Medical History
+                a.list-group-item.list-group-item-action(href="/pet/medication/"+pet.id+"/lists.html") Pet Medication
+                a.list-group-item.list-group-item-action(href="/pet/appointment/"+ pet.id + "/veterinaries/list.html") Veterinaries List
+        .col-md-9
+            #tips
+            nav.bg-white(aria-label="breadcrumb")
+                ol.breadcrumb.bg-white
+                    li.breadcrumb-item
+                        a.link.breadcrumb-item-font-size(href="/pet/index.html") My pet
+                    li.breadcrumb-item.active(aria-current="page") #{pet.name} information edit
+            .card.scard
+                .card-body
+                    //- .card-title.scard-title.underline-2 Pet Information Edit
+                    .content
+                        form#add-pet-form
+                            .form-group
+                                label(for="petCategory" class="field-label") Pet Category
+                                select(class="form-control" name="pet_category_id" id="petCategory")
+                                    for petCategory in petCategories
+                                        if petCategory.id === pet.pet_category_id
+                                            option(value=petCategory.id selected)=petCategory.name
+                                        else
+                                            option(value=petCategory.id)=petCategory.name
+                                small(id="pcategory-error-tip" class="form-text text-danger")
+                            .form-group
+                                label(for="petName" class="field-label") Pet Name
+                                input(type="text" class="form-control" id="petName" name="name" value=pet.name)
+                                input(type="hidden" id="petId" value=pet.id)
+                                small(id="pname-error-tip" class="form-text text-danger")
+                            .form-group
+                                label(for="sex" class="field-label") Gender
+                                select(class="form-control" name="sex" id="sex")
+                                    if pet.sex === 'Male'
+                                        option(value="Male" selected) Male
+                                        option(value="Female") Female
+                                    else
+                                        option(value="Male") Male
+                                        option(value="Female" selected) Female
+                            .form-group
+                                label(for="weight" class="field-label") Weight (in kg)
+                                input(type="number" class="form-control" name="weight" id="weight" value=pet.weight)
+                            .form-group
+                                label(for="dateOfBirth" class="field-label") Date Of Birth
+                                input(type="date" class="form-control" name="date_of_birth" id="dateOfBirth" value=pet.date_of_birth)
+                            .form-group
+                                label(for="husbandryInfo" class="field-label") Husbandry
+                                textarea(class="form-control" name="husbandry_info" id="husbandryInfo")=pet.husbandry_info
+                            .form-group
+                                small(id="error-tips" class="form-text text-danger")
+                                button(type="button" class="btn lbtn" id="pet-edit-btn") Modify
+block scriptblock
+    script(type="text/javascript" src="/js/pet.js")
+                    

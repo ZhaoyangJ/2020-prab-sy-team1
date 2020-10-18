@@ -1,0 +1,20 @@
+style(type="text/css").
+    .dropdown-item:hover {
+        background-color: #205a50;
+    }
+nav.navbar.navbar-expand-lg.navbar-dark.primary-bg-color
+    a.navbar-brand(href='/admin') Pet Administrator
+    button.navbar-toggler(type='button' data-toggle='collapse' data-target='#navbarNavAltMarkup' aria-controls='navbarNavAltMarkup' aria-expanded='false' aria-label='Toggle navigation')
+        span.navbar-toggler-icon
+    #navbarNavAltMarkup.collapse.navbar-collapse
+        ul.navbar-nav.mr-auto.mt-2.mt-lg-0
+            if ausername
+                li.nav-item.dropdown
+                    a#navbarDropdown.nav-link.dropdown-toggle(href='#' role='button' data-toggle='dropdown' aria-haspopup='true' aria-expanded='false') #{ausername}
+                    .dropdown-menu.primary-bg-color(aria-labelledby='navbarDropdown')
+                        a.dropdown-item.white-color(href='/admin/edit.html') Profile
+                        a.dropdown-item.white-color(href='/admin/category/index.html') Pet Category
+                        a.dropdown-item.white-color(href='/admin/pet_parasite_prevention_product/index.html') Pet Parasite Prevention Product
+                        a.dropdown-item.white-color(href='/admin/medication_type/index.html') Medication Type
+                        a.dropdown-item.white-color(href='/admin/logout.html') Logout
+                        .dropdown-divider

@@ -1,0 +1,31 @@
+extends ../../layout
+
+block content
+    include ../header.pug
+    .container-fluid.pmargin-vertical-20(style="width: 60%")
+        .card.scard
+            .card-body
+                .card-title.scard-title.underline-2 Symptoms
+                .content
+                    a(href="/veterinary/symptom/add.html").btn.lbtn.mb-2 Add
+                    //- form(action="/veterinary/medication_type/index.html" method="GET").form-inline
+                    //-   .form-group.mx-sm-3.mb-2
+                    //-     input(type="text" name="q" placeholder="Medication type...").form-control
+                    //-   button(type="submit").btn.lbtn.mb-2  Search
+                    if symptoms && symptoms.length > 0
+                        table.table
+                            thead
+                                tr
+                                    td Name
+                                    td Release Date
+                                    td Opeartion
+                            tbody
+                                for symptom in symptoms
+                                    tr
+                                        td=symptom.name
+                                        td=symptom.release_date
+                                        td
+                                            a(href="/veterinary/symptom/edit.html/" + symptom.id).btn.lbtn.btn-sm Edit
+                                            a(href="/veterinary/symptom/delete.html/" + symptom.id).btn.btn-danger.btn-sm.no-radius.ml-2 Del
+                    else
+                        .alert.alert-danger No symptoms found!

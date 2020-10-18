@@ -1,0 +1,49 @@
+extends ../../layout
+
+block content
+    include ../../header.pug
+    .container-fluid.pmargin-vertical-20(style="width: 90%")
+        if medicalHistory
+            nav.bg-white(aria-label="breadcrumb")
+                ol.breadcrumb.bg-white
+                    li.breadcrumb-item
+                        a.link.breadcrumb-item-font-size(href="/pet/edit.html/"+medicalHistory.pet_id)=medicalHistory.petName
+                    li.breadcrumb-item
+                        a.link.breadcrumb-item-font-size(href="/pet/medical_history/"+medicalHistory.pet_id+"/lists.html/") #{medicalHistory.petName} Medical History
+                    li.breadcrumb-item.active(aria-current="page") #{medicalHistory.petName}'s medical history detail
+            .card.scard
+                .card-body
+                    .content
+                        form
+                            .form-group
+                                label.field-label Pet Name
+                                input(type="text" disabled value=medicalHistory.petName).form-control.border-0
+                            .form-group
+                                label.field-label Owner
+                                input(type="text" disabled value=medicalHistory.customer).form-control.border-0
+                            .form-group
+                                label.field-label Symptom Description
+                                textarea(disabled).form-control.border-0=medicalHistory.symptom_description
+                            .form-group
+                                label.field-label Appointment Ddate
+                                input(type="text" disabled value=medicalHistory.appointment_date).form-control.border-0
+                            .form-group
+                                label.field-label Appointment Time Period
+                                input(type="text" disabled value=medicalHistory.appointment_time_period).form-control.border-0
+                            .form-group
+                                label.field-label Veterinary Contact
+                                input(type="text" disabled value=medicalHistory.veterinary).form-control.border-0
+                            .form-group
+                                label.field-label Parasite Prevention Product
+                                input(type="text" disabled value=medicalHistory.parasite_prevention_product).form-control.border-0
+                            .form-group
+                                label.field-label Check Up
+                                input(type="text" disabled value=medicalHistory.check_up).form-control.border-0
+                            .form-group
+                                label.field-label Medication Date
+                                input(type="text" disabled value=medicalHistory.medication_date).form-control.border-0
+                            .form-group
+                                a(href="/pet/medical_history/"+medicalHistory.pet_id+"/lists.html").btn.lbtn Go Back
+        else
+            .alert.alert-warning Not found the medical history record!
+                    

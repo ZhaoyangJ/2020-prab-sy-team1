@@ -1,0 +1,31 @@
+extends ../../layout
+
+block content
+    include ../header.pug
+    .container-fluid.pmargin-vertical-20(style="width: 90%")
+        .card.scard
+            .card-body
+                .card-title.scard-title.underline-2 #{veterinary.email}'s Appointments List
+                .content
+                    if appointments && appointments.length > 0
+                        table.table.table-hover
+                            thead.primary-bg-color.text-white
+                                tr
+                                    th Pet Name
+                                    th Pet Onwer
+                                    th Appointment Date
+                                    th Time Period
+                                    th.text-center Operation
+                            tbody
+                                for appointment in appointments
+                                    tr
+                                        td=appointment.petName
+                                        td=appointment.customerName
+                                        td=appointment.appointment_date
+                                        td=appointment.appointment_time_period
+                                        td.text-center
+                                            a.btn.lbtn.btn-sm(href="/veterinary/appointment/record.html/"+appointment.id) Record
+                                            a.btn.lbtn.btn-sm(href="/veterinary/appointment/medication.html/"+appointment.id) Medication
+                                            a.btn.lbtn.btn-sm(href="/veterinary/reminder/index.html/"+appointment.pet_id) Reminder
+                    else
+                        .alert.alert-danger No appointments found!

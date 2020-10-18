@@ -1,0 +1,90 @@
+extends ../../layout
+
+block content
+    include ../header.pug
+    .container-fluid.pmargin-vertical-20(style="width: 60%")
+        .card.scard
+            .card-body
+                .card-title.scard-title.underline-2 Add Diagnosing
+                .content
+                    if symptoms && symptoms.length > 0
+                        form#diagnosing-form(action="/veterinary/diagnosing/edit.html" method="POST")
+                            .form-group
+                                label.field-label(for="symptom") Symptom
+                                //- input.form-control(type="text" disabled value=diagnosing.symptomName)
+                                select#symptom.form-control(name="symptom_id")
+                                    option(value=diagnosing.symptom_id selected)=diagnosing.symptomName
+                                    for symptom in symptoms
+                                        option(value=symptom.id)=symptom.name
+                            .form-group
+                                label.field-label(for="diagnosingName") Diagnosing Name
+                                input#diagnosingName.form-control(type="text" name="name" placeholder="Diagnosing name" value=diagnosing.name)
+                                input#original-name(type="hidden" value=diagnosing.name)
+                                input(type="hidden" name="did" value=diagnosing.id)
+                                small#name-error-tip.text-danger
+                            .form-group
+                                label.field-label(for="result") Diagnosing Result
+                                textarea#result.form-control(type="text" name="result" placeholder="Diagnosing result" style="resize:none;")=diagnosing.result
+                                small#result-error-tip.text-danger
+                            .form-group
+                                label.field-label(for="solution") Diagnosing Solution
+                                textarea#solution.form-control(type="text" name="solution" placeholder="Diagnosing solution" style="resize:none;")=diagnosing.solution
+                                small#solution-error-tip.text-danger
+                            .form-group
+                                label.field-label(for="suggestion") Diagnosing Suggestion
+                                textarea#suggestion.form-control(type="text" name="suggestion" placeholder="Diagnosing suggestion" style="resize:none;")=diagnosing.suggestion
+                                small#suggestion-error-tip.text-danger
+                            .form-group
+                                button#update-diagnosing-btn.btn.lbtn(type="button") Update
+                                a.btn.lbtn.ml-2(href="/veterinary/diagnosing/index.html") Back
+                    else
+                        .alert.alert-danger No symptoms found, please 
+                            a.link(href="/veterinary/symptom/add.html") add 
+                            symptom symptoms before.
+block scriptblock
+    script(text="text/javascript").
+        $(function() {
+            $("#update-diagnosing-btn").on("click", async function() {
+                let originalName = $("#original-name").val();
+                let diagnosingName = $("#diagnosingName").val();
+                let result = $("#result").val();
+                let solution = $("#solution").val();
+                let suggestion = $("#suggestion").val();
+                if (!diagnosingName) {
+                    $("#name-error-tip").html("Symptom can't be empty!");
+                    return;
+                } else {
+                    if (originalName !== diagnosingName) {
+                        let res = await request({
+                            url: `/veterinary/diagnosing/exists.json/${diagnosingName}`,
+                            method: "GET"
+                        });
+                        if (200 !== res.code) {
+                            $("#name-error-tip").html(res.msg);
+                            return;
+                        } else {
+                            $("#name-error-tip").html("");
+                        }
+                    }
+                }
+                if (!result) {
+                    $("#result-error-tip").html("Diagnosing result can't be empty!");
+                    return;
+                } else {
+                    $("#result-error-tip").html("");
+                }
+                if (!solution) {
+                    $("#solution-error-tip").html("Diagnosing solution can't be empty!");
+                    return;
+                } else {
+                    $("#solution-error-tip").html("");
+                }
+                if (!suggestion) {
+                    $("#suggestion-error-tip").html("Diagnosing suggestion can't be empty!");
+                    return;
+                } else {
+                    $("#suggestion-error-tip").html("");
+                }
+                $("#diagnosing-form").submit();
+            });
+        });

@@ -1,0 +1,37 @@
+extends ../../../layout
+
+block styleblock
+    style(type="text/css").
+
+block content
+    include ../../../header.pug
+    .container-fluid.pmargin-vertical-20.w-75
+        nav.bg-white(aria-label="breadcrumb")
+            ol.breadcrumb.bg-white
+                li.breadcrumb-item
+                    a.link.breadcrumb-item-font-size(href="/pet/index.html") My pet
+                li.breadcrumb-item
+                    a.link.breadcrumb-item-font-size(href="/pet/album/"+album.petId+"/index.html") #{album.petName}
+                li.breadcrumb-item
+                    a.link.breadcrumb-item-font-size(href="/pet/album/edit.html/"+album.id) #{album.name} album
+                    input(type="hidden" id="albumId" value=album.id)
+                li.breadcrumb-item.active(aria-current="page")=image.name
+        .card.scard
+            .card-body
+                .content
+                    .row
+                        .col-md-6
+                            img.img-fluid.img-thumbnail.rounded(src=image.url)
+                        .col-md-6
+                            form#update-pet-image-form(action="/pet/image/edit.html" method="POST")
+                                .form-group
+                                    label.field-label(for="imageName") Image Name
+                                    input.form-control.border-0(type="text" disabled value=image.name)
+                                .form-group
+                                    label.field-label(for="description") Image Description
+                                    textarea.form-control.border-0(style="resize: none;" disabled)=image.description
+                                .form-group
+                                    label.field-label(for="createAt") Create At
+                                    input.form-control.border-0(type="text" disabled value=image.create_at)
+
+

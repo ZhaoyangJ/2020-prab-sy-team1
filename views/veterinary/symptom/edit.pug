@@ -1,0 +1,67 @@
+extends ../../layout
+
+block content
+    include ../header.pug
+    .container-fluid.pmargin-vertical-20(style="width: 60%")
+        .card.scard
+            .card-body
+                .card-title.scard-title.underline-2 Symptom Edit
+                .content
+                    form#symptom-form(action="/veterinary/symptom/edit.html" method="POST")
+                        .form-group
+                            label.field-label(for="symptomName") Symptom Name
+                            input(type="hidden" name="sid" value=symptom.id)
+                            input#symptomName.form-control(type="text" name="name" placeholder="Symptom name..." value=symptom.name)
+                            input#origin-product-name(type="hidden" value=symptom.name)
+                            small#name-error-tip.text-danger
+                        .form-group
+                            label.field-label(for="duration") Duration
+                            input#duration.form-control(type="text" name="duration" placeholder="Symptom duration" value=symptom.duration)
+                            small#duration-error-tip.text-danger
+                        .form-group
+                            label.field-label(for="frequency") Frequency
+                            input#frequency.form-control(type="text" name="frequency" placeholder="Symptom frequency" value=symptom.frequency)
+                            small#frequency-error-tip.text-danger
+                        .form-group
+                            button#update-symptom-btn.btn.lbtn(type="button") Update
+                            a.btn.lbtn.ml-2(href="/veterinary/symptom/index.html") Back
+block scriptblock
+    script(text="text/javascript").
+        $(function() {
+            $("#update-symptom-btn").on("click", async function() {
+                let name = $("#symptomName").val();
+                let duration = $("#duration").val();
+                let frequency = $("#frequency").val();
+                let originName = $("#origin-product-name").val();
+                if (!name) {
+                    $("#name-error-tip").html("Symptom name can't be empty!");
+                    return;
+                } else {
+                    if (name !== originName) {
+                        let res = await request({
+                            url: `/veterinary/symptom/exists.json/${name}`,
+                            method: "GET"
+                        });
+                        if (200 !== res.code) {
+                            $("#name-error-tip").html(res.msg);
+                            return;
+                        } else {
+                            $("#name-error-tip").html("");
+                        }
+                    }
+                }
+                if (!duration) {
+                    $("#duration-error-tip").html("Symptom duration can't be empty!");
+                    return;
+                } else {
+                    $("#duration-error-tip").html("");
+                }
+                if (!frequency) {
+                    $("#frequency-error-tip").html("Symptom frequency can't be empty!");
+                    return;
+                } else {
+                    $("#frequency-error-tip").html("");
+                }
+                $("#symptom-form").submit();
+            });
+        });

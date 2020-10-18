@@ -1,0 +1,51 @@
+extends ../../layout
+
+block content
+    include ../../header.pug
+    .container-fluid.pmargin-vertical-20(style="width: 90%")
+        .card.scard
+            .card-body
+                .card-title.scard-title.underline-2 #{username}'s Notification List
+                .content
+                    if (readNotifications && readNotifications.length > 0) || (unreadNotifications && unreadNotifications.length > 0)
+                        table.table.table-hover
+                            thead.primary-bg-color.text-white
+                                tr
+                                    th Pet
+                                    th Pet host
+                                    th Notification title
+                                    th Notification date time
+                                    th Status
+                                    th.text-center Operation
+                                tbody
+                                    for unreadNotification in unreadNotifications
+                                        tr
+                                            td=unreadNotification.petName
+                                            td=unreadNotification.customer
+                                            td
+                                                .text-truncate(style="width:15rem;" title=unreadNotification.title)=unreadNotification.title
+                                            td=unreadNotification.reminder_datetime
+                                            td
+                                                span.badge.badge-danger Unread
+                                            td.text-center
+                                                a(href="/customer/notification/detail.html/"+unreadNotification.id).link
+                                                    span.icon.iconfont.icon-search
+                                                a(href="/customer/notification/delete.html/"+unreadNotification.id).text-danger
+                                                    span.icon.iconfont.icon-delete
+                                    for readNotification in readNotifications
+                                        tr
+                                            td=readNotification.petName
+                                            td=readNotification.customer
+                                            td
+                                                .text-truncate(style="width:15rem;" title=readNotification.title)=readNotification.title
+                                            td=readNotification.reminder_datetime
+                                            td
+                                                span.badge.badge-success Read
+                                            td.text-center
+                                                a(href="/customer/notification/detail.html/"+readNotification.id).link
+                                                    span.icon.iconfont.icon-search
+                                                a(href="/customer/notification/delete.html/"+readNotification.id).text-danger.ml-2
+                                                    span.icon.iconfont.icon-delete
+                    else
+                        .alert.alert-warning Has no notifications
+                    

@@ -1,0 +1,14 @@
+doctype html
+html
+  head
+    title #{title}
+    link(rel='stylesheet', href='/css/style.css')
+    link(rel="stylesheet" href="/plugins/bootstrap4/bootstrap4.min.css")
+    link(rel='stylesheet', href='/iconfont/iconfont.css')
+    block styleblock
+  body
+    block content
+    script(src="/plugins/jquery/jquery-3.5.0.min.js")
+    script(src="/plugins/bootstrap4/bootstrap4.min.js")
+    script(src="/js/request.js")
+    block scriptblock

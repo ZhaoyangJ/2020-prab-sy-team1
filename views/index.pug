@@ -1,0 +1,172 @@
+extends layout
+
+block styleblock
+  link(href="https://fonts.googleapis.com/css?family=Niconne" rel="stylesheet" type="text/css")
+  style(type="text/css").
+    .full-screen {
+      width: 100% !important;
+      height: 100% !important;
+    }
+    .icon-font-size {
+      font-size: 7vw;
+    }
+    .icon-font-size1 {
+      font-size: 2vw;
+    }
+    .nicome {
+      font-family: "Niconne", cursive !important;
+      font-size: 5vw;
+    }
+    .nicome-font {
+      font-family: "Niconne", cursive !important;
+    }
+    .staff {
+      width: 200px;
+    }
+    .footer {
+      background-color: rgba(0,0,0,.7);
+    }
+    .info>tbody>tr>td {
+      padding: 2px 10px;
+    }
+block content
+  include header.pug
+  .container-fluid
+    .about
+      h1.text-center
+        span.icon.iconfont.icon-info.primary-color.icon-font-size
+        p.text-center.nicome About
+      hr.line-primary
+      p.text-center.text-muted The Petenarian Hospital is open! We are now ready to meet your beloved pets. Simply book an appointment, or drop by and say hi.
+    .location
+      h1.text-center
+        span.icon.iconfont.icon-location.primary-color.icon-font-size
+        p.text-center.nicome Location
+      hr.line-primary
+      .row
+        .col-md-6
+          p.text-muted The clinic is located in the suburb of Glebe, close to the light rail and famous fish markets.
+          h4
+            span.icon.iconfont.icon-subway.icon-font-size1
+            span Public Transport
+          p.text-muted Glebe Light Rail: 150 meters (2 minute walk)
+          h4
+            span.icon.iconfont.icon-car.icon-font-size1
+            span Driving
+          p.text-muted 5 car spots Easy Access
+        .col-md-6
+          #googleMap(style="width:500px;height:380px;")
+    .user-staff
+      h1.text-center
+        span.icon.iconfont.icon-yonghuguanli.primary-color.icon-font-size
+        p.text-center.nicome Our Team
+      hr.line-primary
+      .row.w-75(style="margin: 0 auto;")
+        .col-md-4
+          .staff.text-center
+            img(src="/images/staff/1.png")
+            h3.primary-color.font-weight-bold Dr Emma Hall
+            h5 VeterinarianDirector / Head Veterinarian
+        .col-md-4
+          .staff.text-center
+            img(src="/images/staff/andrew.jpg").rounded-circle
+            h3.primary-color.font-weight-bold Dr Andrew Vermeulen
+            h5 Veterinarian
+        .col-md-4
+          .staff.text-center
+            img(src="/images/staff/blankprofile.png").rounded-circle
+            h3.primary-color.font-weight-bold Dr Orr Cohen
+            h5 Veterinarian
+      .row.w-75(style="margin: 0 auto;")
+        .col-md-4
+          .staff.text-center
+            img(src="/images/staff/camille.jpg").rounded-circle
+            h3.primary-color.font-weight-bold Camille
+            h5 Head Veterinary Nurse
+        .col-md-4
+          .staff.text-center
+            img(src="/images/staff/cathy.jpg").rounded-circle
+            h3.primary-color.font-weight-bold Rosie
+            h5 Veterinary Nurse
+        .col-md-4
+          .staff.text-center
+            img(src="/images/staff/rosie.jpg").rounded-circle
+            h3.primary-color.font-weight-bold Cathie
+            h5 Cardiac Sonographer
+      .row.w-75(style="margin: 0 auto;")
+        .col-md-4
+          .staff.text-center
+            img(src="/images/staff/norm.png").rounded-circle
+            h3.primary-color.font-weight-bold Norman
+        .col-md-4
+          .staff.text-center
+            img(src="/images/staff/nugget.png").rounded-circle
+            h3.primary-color.font-weight-bold Nugget
+        .col-md-4
+          .staff.text-center
+            img(src="/images/staff/indy.png").rounded-circle
+            h3.primary-color.font-weight-bold Ind
+  .container-fluid.footer.p-3
+    .row
+      .col-md-4
+        h1.nicome.text-white.font-weight-bold Petenarian
+        h6.text-muted EXOTICS & SMALL ANIMAL VETERINARIAN
+        p.font-weight-bold.primary-color.nicome(style="font-size:2.5vw;") Contact
+        .text-white
+          span.icon.iconfont.icon-message.font-weight-bold
+          span.ml-1 reception@pethourse.com.au
+        .text-white
+          span.icon.iconfont.icon-dianhua.font-weight-bold
+          span.ml-1 1300 PET HOURSE (1300 9453 83)
+      .col-md-4
+        h3.primary-color.nicome-font Special Covid Hours
+        table.info
+          tbody
+            tr
+              td.text-white Mon - Fri
+              td.text-white 09:00 am - 07:00 pm
+            tr
+              td.text-white Sat
+              td.text-white 09:00 am - 02:00 pm
+            tr
+              td.text-white Sun
+              td.text-white CLOSED
+      .col-md-4
+        h3.primary-color.nicome-font Openning Hours
+        table.info
+          tbody
+            tr
+              td.text-white Mon - Fri
+              td.text-white 07:30 am - 07:00 pm
+            tr
+              td.text-white Sat
+              td.text-white 09:00 am - 02:00 pm
+            tr
+              td.text-white Sun
+              td.text-white 09:00 am - 12:00 pm
+        h3.primary-color.nicome-font Consulting Hours
+        table.info
+          tbody
+            tr
+              td.text-white Mon - Fri
+              td.text-white 08:00 am - 06:30 pm
+            tr
+              td.text-white Sat
+              td.text-white 09:00 am - 01:30 pm
+            tr
+              td.text-white Sun
+              td.text-white 09:00 am - 12:00 pm
+block scriptblock
+  script(src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDJW4jsPlNKgv6jFm3B5Edp5ywgdqLWdmc&sensor=false")
+  script.
+    function initialize()
+    {
+      var mapProp = {
+        center:new google.maps.LatLng(-33.877028,151.188001),
+        zoom:5,
+        mapTypeId:google.maps.MapTypeId.ROADMAP
+        };
+      var map=new google.maps.Map(document.getElementById("googleMap"),mapProp);
+    }
+
+    google.maps.event.addDomListener(window, 'load', initialize);

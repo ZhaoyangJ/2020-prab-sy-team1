@@ -1,0 +1,57 @@
+extends layout
+
+block content
+    .container(style="width:70%")
+        .card.mb-3.lbox
+            .row.no-gutters
+                .col-md-4
+                    .lbox-left
+                        .lbox-title
+                            svg(class="bi bi-people-circle" width="2em" height="2em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg")
+                                path(d="M13.468 12.37C12.758 11.226 11.195 10 8 10s-4.757 1.225-5.468 2.37A6.987 6.987 0 0 0 8 15a6.987 6.987 0 0 0 5.468-2.63z")
+                                path(fill-rule="evenodd" d="M8 9a3 3 0 1 0 0-6 3 3 0 0 0 0 6z" clip-rule="evenodd")
+                                path(fill-rule="evenodd" d="M8 1a7 7 0 1 0 0 14A7 7 0 0 0 8 1zM0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8z" clip-rule="evenodd")
+                        .lbox-text-title Customer Register
+                .col-md-8
+                    .card-body
+                        form(id="customer-register-form" action="/register.html" method="POST")
+                            .row
+                                .col-md-6
+                                    .form-group
+                                        label(for="username" class="field-label") Username
+                                        input(type="text" class="form-control" id="username" name="username" required)
+                                        small(id="username-error-tip" class="form-text text-danger")
+                                .col-md-6
+                                    .form-group
+                                        label(for="password" class="field-label") Password
+                                        input(type="password" class="form-control" name="password" id="password")
+                                        small(id="password-error-tip" class="form-text text-danger")
+                            .row
+                                .col-md-6
+                                    .form-group
+                                        label(for="name" class="field-label") Name
+                                        input(type="text" class="form-control" name="name" id="name")
+                                .col-md-6
+                                    .form-group
+                                        label(for="sex" class="field-label") Gender
+                                        select(class="form-control" name="sex" id="sex")
+                                            option(value="Male") Male
+                                            option(value="Female") Female
+                                            option(value="Prefer not to say") Prefer not to say
+                            .row
+                                .col-md-6
+                                    .form-group
+                                        label(for="email" class="field-label") Email
+                                        input(type="email" class="form-control" name="email" id="email")
+                                        small(id="email-error-tip" class="form-text text-danger")
+                                .col-md-6
+                                    .form-group
+                                        label(for="address" class="field-label") Adress
+                                        input(type="text" class="form-control" name="address" id="address")
+                                        p.text-right
+                                            a(href="/login.html" class="link") &gt;&gt;Login
+                            .form-group
+                                small(id="error-tips" class="form-text text-danger")
+                                button(type="button" class="btn lbtn" id="register-btn") Register
+block scriptblock
+    script(src="/js/app.js")       

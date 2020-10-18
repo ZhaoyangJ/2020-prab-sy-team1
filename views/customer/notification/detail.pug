@@ -1,0 +1,32 @@
+extends ../../layout
+
+block content
+    include ../../header.pug
+    .container-fluid.pmargin-vertical-20(style="width: 90%")
+        .card.scard
+            .card-body
+                .card-title.scard-title.underline-2 #{username}'s Notification Detail
+                .content
+                    if notification
+                        form
+                            .form-group
+                                label.field-label Pet
+                                input(type="text" disabled value=notification.petName).form-control.border-0
+                            .form-group
+                                label.field-label Reminder
+                                input(type="text" disabled value=notification.reminder).form-control.border-0
+                            .form-group
+                                label.field-label Title
+                                input(type="text" disabled value=notification.title).form-control.border-0
+                            .form-group
+                                label.field-label Title
+                                textarea(disabled style="").form-control=notification.message
+                            .form-group
+                                label.field-label Create At
+                                input(type="text" disabled value=notification.create_at).form-control.border-0
+                            .form-group
+                                a(href="/customer/notification/lists.html").btn.lbtn Go Back
+                    else
+                        .alert.alert-warning Not found the notification!
+                    
+                    

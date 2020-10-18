@@ -1,0 +1,44 @@
+style(type="text/css").
+    .dropdown-item:hover {
+        background-color: #205a50;
+    }
+nav.navbar.navbar-expand-lg.navbar-dark(style='background-color: rgb(43, 104, 94);')
+    a.navbar-brand(href='/') Petenarian
+    button.navbar-toggler(type='button' data-toggle='collapse' data-target='#navbarNavAltMarkup' aria-controls='navbarNavAltMarkup' aria-expanded='false' aria-label='Toggle navigation')
+        span.navbar-toggler-icon
+    #navbarNavAltMarkup.collapse.navbar-collapse
+        ul.navbar-nav.mr-auto.mt-2.mt-lg-0
+            li.nav-item.active
+                a.nav-link(href='/pet/add.html')
+                    | Pet
+                    span.sr-only (current)
+            li.nav-item
+                a.nav-link(href="/dss/inquiry.html") Intelligent Q & A
+            if username
+                li.nav-item.dropdown
+                    a#navbarDropdown.nav-link.dropdown-toggle(href='#' role='button' data-toggle='dropdown' aria-haspopup='true' aria-expanded='false') #{username}
+                    .dropdown-menu.primary-bg-color(aria-labelledby='navbarDropdown')
+                        a.dropdown-item.white-color(href='/customer/profile.html') Profile
+                        a.dropdown-item.white-color(href='/pet/index.html') My Pet
+                        a.dropdown-item.white-color(href='/customer/notification/lists.html') Notificaion
+                            span.badge.badge-danger#unread-notification.ml-2
+                        a.dropdown-item.white-color(href='/Logout.html') Logout
+                        .dropdown-divider
+                        a.dropdown-item.white-color(href='/customer/delete.html') Delete Account
+            else
+                li.nav-item
+                    a.nav-link(href="/login.html") Login
+                li.nav-item
+                    a.nav-link(href="/register.html") Register
+block scriptblock
+    script(src="/plugins/jquery/jquery-3.5.0.min.js")
+    //- script(src="/js/request.js")
+    script.
+        $(async function() {
+            let res = await request({url: "/customer/notification/unread/count.json"});
+            if (200 === res.code) {
+                if (res.count > 0) {
+                    $("#unread-notification").html(res.count);
+                }
+            }
+        });

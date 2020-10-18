@@ -1,0 +1,69 @@
+extends ../../layout
+
+block styleblock
+  link(rel="stylesheet" href="/css/upload.css")
+  style(type="text/css").
+    .operation-pane {
+        position: relative;
+        background-color: rgba(0,0,0,0.7);
+        color: white;
+        bottom: 75px;
+        padding: 10px;
+        display: none;
+    }
+    .operation-pane a:hover {
+        color: tomato !important; 
+    }
+    .img-info {
+        font-size: 0.8em;
+    }
+block content
+  include ../../header.pug
+  .container-fluid.pmargin-vertical-20.w-75
+    nav.bg-white(aria-label="breadcrumb")
+        ol.breadcrumb.bg-white
+            li.breadcrumb-item
+                a.link.breadcrumb-item-font-size(href="/pet/index.html") My pet
+            li.breadcrumb-item
+                a.link.breadcrumb-item-font-size(href="/pet/album/"+album.pet_id+"/index.html") #{album.petName} album
+            li.breadcrumb-item.active(aria-current="page") Edit album
+    .card.scard
+        .card-body
+            .content
+                form#update-pet-album-form(action="/pet/album/edit.html" method="POST")
+                    .form-group
+                        label(for="albumName" class="field-label") Album Name
+                        input(type="text" class="form-control" id="albumName" name="name" value=album.name)
+                        input(type="hidden" name="petId" value=album.pet_id)
+                        input(type="hidden" name="albumId" value=album.id)
+                        small(id="album-error-tip" class="form-text text-danger")
+                    .form-group
+                        label(for="description" class="field-label") Album Description
+                        textarea(class="form-control" name="description" id="description")=album.description
+                    .form-group
+                        button(type="button" class="btn lbtn" id="update-album-btn") Modify
+    .card.scard
+        .card-body
+            .underline-2.mb-2.pb-2
+                a.btn.lbtn(href="/pet/image/upload.html/"+album.id title="upload image") Upload Image
+            if images && images.length > 0
+                .image-preview
+                    for image in images
+                        .img-item.mt-3.mr-3.border(title=image.name)
+                            a(href="/pet/image/detail.html/"+image.id)
+                                img(src=image.url)
+                            .operation-pane.text-right
+                                a.white-color.link.mr-2(href="/pet/image/edit.html/"+image.id title="Image information edit")
+                                    span.icon.iconfont.icon-edit
+                                a.link.text-white.mr-2(href="/pet/album/cover/setting.html/"+image.pet_album_id+"/"+image.id title="Set it to the cover of the album")
+                                    span.icon.iconfont.icon-album
+                                a.link.text-white(href="/pet/image/delete.html/"+image.id title="Delete")
+                                    span.icon.iconfont.icon-delete
+                                label.white-color.img-info=image.create_at
+            else
+                .alert.alert-warning Not images found!
+block scriptblock
+    script(src="/js/image_preview.js")
+    script(type="text/javascript").
+                
+                    

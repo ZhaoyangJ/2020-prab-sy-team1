@@ -1,0 +1,15 @@
+{
+    "file_choose_button_name": "请选择上传文件",
+    "file_upload_button_name": "上传",
+    "confirm_upload_button_name": "确定上传文件",
+    "continue_choose_button_name": "继续选择",
+    "drag_box_tip": "或者拖拽文件到这里进行上传",
+    "file_choose_tip": "单击选择文件",
+    "status_info": "选中 {number} 个文件, 共：{total}.",
+    "file_size_exceed_tip": "上传文件 {filename} 过大",
+    "delete_button_tip": "删除",
+    "upload_failure_tip": "上传文件失败，请稍后再试",
+    "file_upload_failure_tip": "文件({filename}) 上传失败",
+    "file_upload_success_tip": "文件上传成功, 文件地址为: {url}",
+    "empty_file_upload_tip": "请选择上传文件"
+}

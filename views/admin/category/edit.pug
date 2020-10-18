@@ -1,0 +1,49 @@
+extends ../../layout
+
+block content
+    include ../header.pug
+    .container-fluid.pmargin-vertical-20(style="width: 60%")
+        .card.scard
+            .card-body
+                .card-title.scard-title.underline-2 Add Pet Category
+                .content
+                    form(action="/admin/category/edit.html" id="pcategory-form" method="POST")
+                        .form-group
+                            label(for="petCategoryName").field-label Name
+                            input(type="hidden" name="pid" value=petCategory.id)
+                            input(type="text" name="name" placeholder="pet category name" id="petCategoryName" value=petCategory.name).form-control
+                            input(type="hidden" id="origin-pcategory-name" value=petCategory.name)
+                            small(id="pname-error-tip" class="form-text text-danger")
+                        .form-group
+                            label(for="description").field-label Description
+                            input(type="text" name="description" placeholder="description" id="description" value=petCategory.description).form-control
+                        .form-group
+                            button#update-pcategory-btn.btn.lbtn(type="button") Update
+                            a.btn.lbtn.ml-2(href="/admin/category/index.html") Back
+block scriptblock
+    script(text="text/javascript").
+        $(function() {
+            $("#update-pcategory-btn").on("click", async function() {
+                let petCategoryName = $("#petCategoryName").val();
+                let originPcategoryName = $("#origin-pcategory-name").val();
+                let description = $("#description").val();
+                if (!petCategoryName) {
+                    $("#pname-error-tip").html("Pet category name can't be empty!");
+                    return;
+                } else {
+                    if (petCategoryName !== originPcategoryName) {
+                        let res = await request({
+                            url: `/admin/category/exists.json/${petCategoryName}`,
+                            method: "GET"
+                        });
+                        if (200 !== res.code) {
+                            $("#pname-error-tip").html(res.msg);
+                            return;
+                        } else {
+                            $("#pname-error-tip").html("");
+                        }
+                    }
+                }
+                $("#pcategory-form").submit();
+            });
+        });

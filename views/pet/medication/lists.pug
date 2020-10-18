@@ -1,0 +1,35 @@
+extends ../../layout
+
+block content
+    include ../../header.pug
+    .container-fluid.pmargin-vertical-20(style="width: 90%")
+        if medications && medications.length > 0
+            nav.bg-white(aria-label="breadcrumb")
+                ol.breadcrumb.bg-white
+                    li.breadcrumb-item
+                        a.link.breadcrumb-item-font-size(href="/pet/edit.html/"+pet.id)=pet.name
+                    li.breadcrumb-item.active(aria-current="page") #{pet.name} Medication List
+            .card.scard
+                .card-body
+                    .content
+                        table.table.table-hover
+                            thead.primary-bg-color.text-white
+                                tr
+                                    th Medication type
+                                    th Medication Duration
+                                    th Medication date
+                                    th Create at
+                                    th.text-center Operation
+                            tbody
+                                for medication in medications
+                                    tr
+                                        td=medication.medication_type
+                                        td=medication.medication_duration
+                                        td=medication.medication_date
+                                        td=medication.create_at
+                                        td.text-center
+                                            a(href="/pet/medication/detail.html/"+medication.id).link
+                                                span.icon.iconfont.icon-search
+        else
+            .alert.alert-warning No medications found!
+                    

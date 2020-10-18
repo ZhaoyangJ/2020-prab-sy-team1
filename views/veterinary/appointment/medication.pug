@@ -1,0 +1,64 @@
+extends ../../layout
+
+block content
+    include ../header.pug
+    .container-fluid.pmargin-vertical-20(style="width: 80%")
+        if appointment
+            .card.scard
+                .card-body
+                    .card-title.scard-title.underline-2 #{appointment.petName}'s appointment information
+                    .content
+                        form
+                            .form-group
+                                label.field-label Pet Name
+                                input(type="text" disabled value=appointment.petName).form-control
+                            .form-group
+                                label.field-label Pet Gender
+                                input(type="text" disabled value=appointment.petSex).form-control
+                            .form-group
+                                label.field-label Description
+                                textarea(disabled).form-control=appointment.petSex
+            if medications && medications.length > 0
+                .card.scard
+                    .card-body
+                        .card-title.scard-title.underline-2 #{appointment.petName}'s Medication History
+                        .content
+                            table.table.table-hover
+                                thead.primary-bg-color.text-white
+                                    tr
+                                        th Medication type
+                                        th Medication duration
+                                        th Medication date
+                                        th Create at
+                                tbody
+                                    for medication in medications
+                                        tr
+                                            td=medication.medication_type
+                                            td=medication.medication_duration
+                                            td=medication.medication_date
+                                            td=medication.create_at
+            .card.scard
+                .card-body
+                    .card-title.scard-title.underline-2 New Treatment Record
+                    .content
+                        form(action="/veterinary/appointment/medication.html" method="POST")
+                            .form-group
+                                label(for="medication-type").field-label Medication type
+                                input(type="hidden" name="appointment_id" value=appointment.id) 
+                                input(type="hidden" name="pet_id" value=appointment.pet_id) 
+                                input(type="hidden" name="recorder_id" value=appointment.veterinary_id) 
+                                select(name="medication_type_id")#medication-type.form-control
+                                    for medicationType in medicationTypes
+                                        option(value=medicationType.id)=medicationType.name
+                            .form-group
+                                label(for="medication-duration").field-label Medication duration
+                                input(type="text" name="medication_duration")#medication-duration.form-control
+                            .form-group
+                                label(for="medication-date").field-label Medication date
+                                input(type="date" name="medication_date")#medication-date.form-control
+                            .form-group
+                                button(type="submit").btn.lbtn Record
+                                a(href="/veterinary/appointments/index.html").btn.lbtn.ml-2 Go back
+        else
+            .alert.alert-warning Not found this appointment!
+                    

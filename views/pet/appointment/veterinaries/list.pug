@@ -1,0 +1,48 @@
+extends ../../../layout
+
+block styleblock
+  style(type="text/css").
+    
+block content
+  include ../../../header.pug
+  .container-fluid.pmargin-vertical-20.w-75
+    .row
+        .col-md-3
+            .list-group
+                a.list-group-item.list-group-item-action(href="/pet/album/"+pet.id+"/index.html") Pet Album
+                a.list-group-item.list-group-item-action(href="/pet/medical_history/"+pet.id+"/lists.html") Pet Medical History
+                a.list-group-item.list-group-item-action(href="/pet/medication/"+pet.id+"/lists.html") Pet Medication
+                a.list-group-item.list-group-item-action.primary-bg-color.text-white(href="javascript:void") Make Appointment
+        .col-md-9
+            #tips
+            nav.bg-white(aria-label="breadcrumb")
+                ol.breadcrumb.bg-white
+                    li.breadcrumb-item
+                        a.link.breadcrumb-item-font-size(href="/pet/edit.html/"+pet.id)=pet.name
+                    li.breadcrumb-item.active(aria-current="page") Veterinary List
+            if veterinaries && veterinaries.length > 0
+                for veterinary in veterinaries
+                    .card.scard
+                        .card-body
+                            //- .card-title.scard-title.underline-2 Pet Information Edit
+                            .content
+                                .row
+                                    .col-md-3
+                                        div(style="height: 150px;")
+                                            img(src=veterinary.photo)
+                                    .col-md-9
+                                        form
+                                            .form-group
+                                                label(class="field-label") Email
+                                                input(type="text" class="form-control" disabled value=veterinary.email)
+                                            .form-group
+                                                label(class="field-label") Introduction
+                                                textarea(class="form-control" disabled)=veterinary.introduction
+                                            .form-group
+                                                a(href="/pet/appointment/"+pet.id+"/veterinary/"+veterinary.id+"/book.html").btn.lbtn Enter
+            else
+                .alert.alert-warning No veterinaries found!
+                        
+block scriptblock
+    script(type="text/javascript" src="/js/pet.js")
+                    

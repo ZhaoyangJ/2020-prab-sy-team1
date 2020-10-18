@@ -1,0 +1,55 @@
+extends ../layout
+
+block styleblock
+  style(type="text/css").
+    .sm-title {
+      font-size: 12px;
+      margin-right: 10px;
+    }
+    .pet-info {
+        display: flex;
+    }
+    .album-container {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+    }
+    .pname {
+      color: #ffc107;
+      font-size: 1.2em !important;
+    }
+    .pname:hover {
+      color: tomato !important;
+    }
+    .ptime {
+      font-size: 0.6em;
+    }
+    .album-info-pane {
+      background-color: rgba(0,0,0,.7);
+    }
+block content
+  include ../header.pug
+  .container-fluid.pmargin-vertical-20(style="width: 80%")
+    .card.scard
+        .card-body
+            .card-title.scard-title.underline-2 #{pet.name}
+            .content
+                .pet-info
+                    label.form-text.text-muted.sm-title Category: #{pet.category}
+                    label.form-text.text-muted.sm-title Publisher: #{pet.owner}
+                    label.form-text.text-muted.sm-title Weight: #{pet.weight}
+                    label.form-text.text-muted.sm-title Gender: #{pet.sex}
+                    label.form-text.text-muted.sm-title Date Of Birth: #{pet.date_of_birth}
+                    label.form-text.text-muted.sm-title Publish at: #{pet.create_at}
+                .form-text.text-muted #{pet.husbandry_info}
+    .album-container
+      if albums && albums.length > 0
+        for album in albums
+          .card.scard(style="width:12rem;")
+            a(href="/pet/album/image/list.html/"+album.id style="height: 150px;")
+              img.rounded-0(src=album.cover_url)
+            .card-body.album-info-pane
+              h5.card-title.text-truncate
+                a.pname(href="/pet/album/image/list.html/"+album.id)=album.name
+              p.card-text.text-white.text-truncate #{album.description}
+              .card-text.text-white.text-truncate.ptime=album.create_at

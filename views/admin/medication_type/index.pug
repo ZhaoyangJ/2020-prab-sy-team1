@@ -1,0 +1,35 @@
+extends ../../layout
+
+block content
+  include ../header.pug
+  .container-fluid.pmargin-vertical-20(style="width: 70%")
+        .card.scard
+            .card-body
+                .card-title.scard-title.underline-2 Medication Type
+                .content
+                  .row
+                    form(action="/admin/medication_type/index.html" method="GET").form-inline
+                      .form-group.mx-sm-3.mb-2
+                        input(type="text" name="q" placeholder="Medication type...").form-control
+                      button(type="submit").btn.lbtn.mb-2  Search
+                      a(href="/admin/medication_type/add.html").btn.lbtn.mb-2.ml-2 Add
+                  if medicationTypes && medicationTypes.length > 0
+                    table.table
+                      thead
+                        tr
+                          td Name
+                          td Description
+                          td Create Date
+                          td Opeartion
+                      tbody
+                        for medicationType in medicationTypes
+                          tr
+                            td=medicationType.name
+                            td(title=medicationType.description)
+                              .text-truncate(style="width:100px;") medicationType.description
+                            td=medicationType.create_at
+                            td
+                              a(href="/admin/medication_type/edit.html/" + medicationType.id).btn.lbtn.btn-sm Edit
+                              a(href="/admin/medication_type/delete.html/" + medicationType.id).btn.btn-danger.btn-sm.no-radius.ml-2 Del
+                  else
+                    .alert.alert-danger No medication types found!

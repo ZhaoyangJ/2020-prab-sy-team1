@@ -1,0 +1,61 @@
+extends ../../layout
+
+block styleblock
+  style(type="text/css").
+    .pet-desc {
+        width: 12rem;
+    }
+    .album-pane {
+        background-color: rgba(0,0,0,.7);
+        color: #fff;
+    }
+    .album-name {
+        font-size: 1em !important;
+        color: #ffc107 !important;
+    }
+    .album-name:hover {
+        color: tomato !important;
+        text-decoration: none;
+    }
+block content
+  include ../../header.pug
+  .container-fluid.pmargin-vertical-20(style="width:80%;")
+    .row
+        .col-md-3
+            .list-group
+                a.list-group-item.list-group-item-action.list-item-active(href="javascript:void") Pet Album
+                a.list-group-item.list-group-item-action(href="/pet/medical_history/"+pet.id+"/lists.html") Pet Medical History
+                a.list-group-item.list-group-item-action(href="/pet/medication/"+pet.id+"/lists.html") Pet Medication
+                a.list-group-item.list-group-item-action(href="/pet/appointment/"+pet.id+ "/veterinaries/list.html") Veterinaries List
+        .col-md-9
+            nav.bg-white(aria-label="breadcrumb")
+                ol.breadcrumb.bg-white
+                    li.breadcrumb-item
+                        a.link.breadcrumb-item-font-size(href="/pet/index.html") My pet
+                    li.breadcrumb-item
+                        a.link.breadcrumb-item-font-size(href="/pet/edit.html/"+pet.id) #{pet.name}
+                    li.breadcrumb-item.active(aria-current="page") Album
+            .card.scard
+                .card-body
+                    .content
+                        a.btn.lbtn(href="/pet/album/"+pet.id+"/add.html")
+                            span.icon.iconfont.icon-tianjia1 
+                            Add Add album
+            if petAlbums && petAlbums.length > 0
+                .d-flex.flex-wrap.justify-content-around
+                    for petAlbum in petAlbums
+                        .card.scard.hover-border(style="width: 15rem;")
+                            a.w-auto(href="/pet/album/edit.html/" + petAlbum.id style="height: 200px;")
+                                img(src=petAlbum.cover_url)
+                            .album-pane.card-body
+                                h5.card-title.text-truncate
+                                    a.album-name(href="/pet/album/edit.html/" + petAlbum.id)=petAlbum.name
+                                .text-white.link #{petAlbum.create_at}
+                                a.link(href="/pet/album/edit.html/" + petAlbum.id title="edit") 
+                                    span.icon.iconfont.icon-B.text-warning
+                                a.link(href="/pet/album/"+petAlbum.pet_id+"/delete.html/" + petAlbum.id title="delete") 
+                                    span.icon.iconfont.icon-delete.text-danger
+            else
+                .alert.alert-warning No albums found!
+                
+                    

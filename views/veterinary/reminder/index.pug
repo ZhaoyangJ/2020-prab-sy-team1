@@ -1,0 +1,33 @@
+extends ../../layout
+
+block content
+    include ../header.pug
+    .container-fluid.pmargin-vertical-20(style="width: 90%")
+        .card.scard
+            .card-body
+                .card-title.scard-title.underline-2 #{pet.name}'s Reminder List
+                .content
+                    .mt-2
+                        a(href="/veterinary/reminder/add.html/"+pet.id style="border-right:1px solid white !important;").btn.lbtn Add new reminder
+                        a(href="/veterinary/appointments/index.html").btn.lbtn Go back
+                    if reminders && reminders.length > 0
+                        table.table.table-hover.mt-2
+                            thead
+                                tr.primary-bg-color.text-white
+                                    th Pet
+                                    th Pet host
+                                    th Reminder title
+                                    th Reminder date time
+                                    th Opeartion
+                            tbody
+                                for reminder in reminders
+                                    tr
+                                        td=reminder.petName
+                                        td=reminder.customer
+                                        td=reminder.title
+                                        td=reminder.reminder_datetime
+                                        td
+                                            a(href="/veterinary/reminder/delete.html/"+reminder.id+"/"+reminder.pet_id title="Delete the reminder").text-danger
+                                                span.icon.iconfont.icon-delete
+                    else
+                        .alert.alert-warning.mt-2 No reminders found!

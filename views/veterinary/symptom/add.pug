@@ -1,0 +1,63 @@
+extends ../../layout
+
+block content
+  include ../header.pug
+  .container-fluid.pmargin-vertical-20(style="width: 60%")
+        .card.scard
+            .card-body
+                .card-title.scard-title.underline-2 Add Symptom
+                .content
+                    form#symptom-form(action="/veterinary/symptom/add.html" method="POST")
+                        .form-group
+                            label.field-label(for="symptomName") Symptom Name
+                            input#symptomName.form-control(type="text" name="name" placeholder="Symptom name")
+                            input(type="hidden" name="recorder_id" value=vid)
+                            small#name-error-tip.text-danger
+                        .form-group
+                            label.field-label(for="duration") Symptom Duration
+                            textarea#duration.form-control(type="text" name="duration" placeholder="Symptom duration" style="resize:none;")
+                            small#duration-error-tip.text-danger
+                        .form-group
+                            label.field-label(for="frequency") Symptom Frequency
+                            textarea#frequency.form-control(type="text" name="frequency" placeholder="Symptom frequency" style="resize:none;")
+                            small#frequency-error-tip.text-danger
+                        .form-group
+                            button#add-symptom-btn.btn.lbtn(type="button") Add
+                            a.btn.lbtn.ml-2(href="/veterinary/symptom/index.html") Back
+block scriptblock
+    script(text="text/javascript").
+        $(function() {
+            $("#add-symptom-btn").on("click", async function() {
+                let symptomName = $("#symptomName").val();
+                let duration = $("#duration").val();
+                let frequency = $("#frequency").val();
+                if (!symptomName) {
+                    $("#name-error-tip").html("Symptom can't be empty!");
+                    return;
+                } else {
+                    let res = await request({
+                        url: `/veterinary/symptom/exists.json/${symptomName}`,
+                        method: "GET"
+                    });
+                    if (200 !== res.code) {
+                        $("#name-error-tip").html(res.msg);
+                        return;
+                    } else {
+                        $("#name-error-tip").html("");
+                    }
+                }
+                if (!duration) {
+                    $("#duration-error-tip").html("Symptom duration can't be empty!");
+                    return;
+                } else {
+                    $("#duration-error-tip").html("");
+                }
+                if (!frequency) {
+                    $("#frequency-error-tip").html("Symptom frequency can't be empty!");
+                    return;
+                } else {
+                    $("#frequency-error-tip").html("");
+                }
+                $("#symptom-form").submit();
+            });
+        });

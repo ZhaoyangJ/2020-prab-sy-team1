@@ -1,0 +1,29 @@
+extends layout
+
+block styleblock
+  style(type="text/css").
+    .content-pane {
+        max-height: 400px;
+        overflow-y: scroll;
+    }
+    .info-pane {
+        padding: 15px;
+        background-color: #2b685e;
+        color: white;
+        margin-bottom: 20px;
+    }
+block content
+    include header.pug
+    .container-fluid.mt-3.w-75
+        .card.scard
+            .card-body.scard-body
+                .card-title.scard-title.underline-2 Quick Consultation
+                .content
+                    #content-pane.content-pane
+                .pt-3(style="border-top: 1px solid #2b685e;")
+                    .input-group
+                        input#parent-id.form-control(type="text" placeholder="Choose option")
+                        #send-btn.input-group-prepend(style="cursor:pointer;")
+                            span.input-group-text.primary-bg-color.white-color Send
+block scriptblock
+  script(src="/js/dss.js")

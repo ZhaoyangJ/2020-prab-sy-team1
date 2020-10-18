@@ -1,0 +1,36 @@
+extends ../../layout
+
+block content
+    include ../../header.pug
+    .container-fluid.pmargin-vertical-20(style="width: 90%")
+        if medicalHistories && medicalHistories.length > 0
+            nav.bg-white(aria-label="breadcrumb")
+                ol.breadcrumb.bg-white
+                    li.breadcrumb-item
+                        a.link.breadcrumb-item-font-size(href="/pet/edit.html/"+pet.id)=pet.name
+                    li.breadcrumb-item.active(aria-current="page") #{pet.name} Medical History
+            .card.scard
+                .card-body
+                    //- .card-title.scard-title.underline-2 #{pet.name}'s medical histories
+                    .content
+                        table.table.table-hover
+                            thead.primary-bg-color.text-white
+                                tr
+                                    th Parasite prevention product
+                                    th Check up
+                                    th Medication date
+                                    th Create at
+                                    th.text-center Operation
+                            tbody
+                                for medicalHistory in medicalHistories
+                                    tr
+                                        td=medicalHistory.parasite_prevention_product
+                                        td=medicalHistory.check_up
+                                        td=medicalHistory.medication_date
+                                        td=medicalHistory.create_at
+                                        td.text-center
+                                            a(href="/pet/medical_history/detail.html/"+medicalHistory.id).link
+                                                span.icon.iconfont.icon-search
+        else
+            .alert.alert-warning No medical history found!
+                    

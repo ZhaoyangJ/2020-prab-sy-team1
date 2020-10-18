@@ -1,0 +1,64 @@
+extends ../../layout
+
+block content
+    include ../header.pug
+    .container-fluid.pmargin-vertical-20(style="width: 80%")
+        if appointment
+            .card.scard
+                .card-body
+                    .card-title.scard-title.underline-2 #{appointment.petName}'s appointment information
+                    .content
+                        form
+                            .form-group
+                                label.field-label Pet Name
+                                input(type="text" disabled value=appointment.petName).form-control
+                            .form-group
+                                label.field-label Pet Gender
+                                input(type="text" disabled value=appointment.petSex).form-control
+                            .form-group
+                                label.field-label Description
+                                textarea(disabled).form-control=appointment.petSex
+            if petMedicalHistories && petMedicalHistories.length > 0
+                .card.scard
+                    .card-body
+                        .card-title.scard-title.underline-2 #{appointment.petName}'s Medical History
+                        .content
+                            table.table.table-hover
+                                thead.primary-bg-color.text-white
+                                    tr
+                                        th Parasite prevention product
+                                        th Check up
+                                        th Medication date
+                                        th Create at
+                                tbody
+                                    for pmh in petMedicalHistories
+                                        tr
+                                            td=pmh.parasite_prevention_product
+                                            td=pmh.check_up
+                                            td=pmh.medication_date
+                                            td=pmh.create_at
+            .card.scard
+                .card-body
+                    .card-title.scard-title.underline-2 New Record
+                    .content
+                        form(action="/veterinary/appointment/record.html" method="POST")
+                            .form-group
+                                label(for="parasite_prevention_product").field-label Parasite Prevention Product
+                                input(type="hidden" name="appointment_id" value=appointment.id) 
+                                input(type="hidden" name="pet_id" value=appointment.pet_id) 
+                                input(type="hidden" name="recorder_id" value=appointment.veterinary_id) 
+                                select(name="parasite_prevention_product_id")#parasite_prevention_product.form-control
+                                    for pppp in petParsitePrevetionProducts
+                                        option(value=pppp.id)=pppp.name
+                            .form-group
+                                label(for="check_up").field-label Check up
+                                input(type="text" name="check_up")#check_up.form-control
+                            .form-group
+                                label(for="medication_date").field-label Medication date
+                                input(type="date" name="medication_date")#medication_date.form-control
+                            .form-group
+                                button(type="submit").btn.lbtn Record
+                                a(href="/veterinary/appointments/index.html").btn.lbtn.ml-2 Go back
+        else
+            .alert.alert-warning Not found this appointment!
+                    

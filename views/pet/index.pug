@@ -1,0 +1,42 @@
+extends ../layout
+
+block styleblock
+    style(type="text/css").
+        .my-pet-card-container {
+            display: flex;
+            flex-wrap: wrap;
+        }
+        .card-item {
+            width: 18rem;
+            margin-right: 20px;
+            margin-bottom: 20px;
+        }
+        .card-subtitle {
+            font-size: 0.8em;
+        }
+        .pet-name {
+            font-size: 1.1em;
+        }
+block content
+    include ../header.pug
+    .container-fluid.pmargin-vertical-20
+        if pets && pets.length > 0
+            .my-pet-card-container
+                for pet in pets
+                    .card.scard.card-item.hover-border
+                        //- img.card-img-top(src="")
+                        .card-body
+                            h5.card-title.primary-color
+                                a.link.pet-name(href="/pet/edit.html/" + pet.id) #{pet.name}
+                            h6.card-subtitle.mb-2.text-muted Category: #{pet.category}
+                            p.card-subtitle.text-muted Create At: #{pet.create_at}
+                            a.link(href="/pet/edit.html/" + pet.id title="edit") 
+                                span.icon.iconfont.icon-B
+                            a.link(href="/pet/delete.html/" + pet.id title="delete") 
+                                span.icon.iconfont.icon-delete.text-danger
+        else
+            .alert.alert-warning No pets found!
+
+                    
+block scriptblock
+    script(text="text/javascript" src="/js/pet.js")

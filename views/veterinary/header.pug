@@ -1,0 +1,20 @@
+style(type="text/css").
+    .dropdown-item:hover {
+        background-color: #205a50;
+    }
+nav.navbar.navbar-expand-lg.navbar-dark.primary-bg-color
+    a.navbar-brand(href='/veterinary/index.html') Veterinary Space
+    button.navbar-toggler(type='button' data-toggle='collapse' data-target='#navbarNavAltMarkup' aria-controls='navbarNavAltMarkup' aria-expanded='false' aria-label='Toggle navigation')
+        span.navbar-toggler-icon
+    #navbarNavAltMarkup.collapse.navbar-collapse
+        ul.navbar-nav.mr-auto.mt-2.mt-lg-0
+            if vemail
+                li.nav-item.dropdown
+                    a#navbarDropdown.nav-link.dropdown-toggle(href='#' role='button' data-toggle='dropdown' aria-haspopup='true' aria-expanded='false')=vemail
+                    .dropdown-menu.primary-bg-color(aria-labelledby='navbarDropdown')
+                        a.dropdown-item.white-color(href='/veterinary/profile/edit.html') Profile
+                        a.dropdown-item.white-color(href='/veterinary/symptom/index.html') Symptom
+                        a.dropdown-item.white-color(href='/veterinary/diagnosing/index.html') Diagnosing
+                        a.dropdown-item.white-color(href='/veterinary/appointments/index.html') Appointments
+                        a.dropdown-item.white-color(href='/veterinary/logout.html') Logout
+                        .dropdown-divider

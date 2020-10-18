@@ -1,0 +1,44 @@
+extends ../../layout
+
+block content
+  include ../header.pug
+  .container-fluid.pmargin-vertical-20(style="width: 60%")
+        .card.scard
+            .card-body
+                .card-title.scard-title.underline-2 Add Medication Type
+                .content
+                    form#medication-type-form(action="/admin/medication_type/add.html" method="POST")
+                        .form-group
+                            label.field-label(for="medicationType") Medication Type
+                            input#medicationType.form-control(type="text" name="name" placeholder="Medication type...")
+                            small#name-error-tip.text-danger
+                        .form-group
+                            label.field-label(for="description") Description
+                            input#description.form-control(type="text" name="description" placeholder="description")
+                        .form-group
+                            button#add-medication-type-btn.btn.lbtn(type="button") Add
+                            a.btn.lbtn.ml-2(href="/admin/medication_type/index.html") Back
+block scriptblock
+    script(text="text/javascript").
+        $(function() {
+            $("#add-medication-type-btn").on("click", async function() {
+                let medicationType = $("#medicationType").val();
+                let description = $("#description").val();
+                if (!medicationType) {
+                    $("#name-error-tip").html("Medication type can't be empty!");
+                    return;
+                } else {
+                    let res = await request({
+                        url: `/admin/medication_type/exists.json/${medicationType}`,
+                        method: "GET"
+                    });
+                    if (200 !== res.code) {
+                        $("#name-error-tip").html(res.msg);
+                        return;
+                    } else {
+                        $("#name-error-tip").html("");
+                    }
+                }
+                $("#medication-type-form").submit();
+            });
+        });

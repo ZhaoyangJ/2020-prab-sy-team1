@@ -1,0 +1,96 @@
+extends ../layout
+
+block content
+    include header.pug
+    .container-fluid.pmargin-vertical-20(style="width: 60%")
+        .card.scard
+            .card-body
+                .card-title.scard-title.underline-2 Profile
+                .content
+                    #tips
+                    form
+                        .row
+                            .col-md-6
+                                .form-group
+                                    label(for="username" class="field-label") Username
+                                    input(type="text" class="form-control" id="username" name="username" disabled value=admin.username)
+                            .col-md-6
+                                .form-group
+                                    label(for="name" class="field-label") Name
+                                    input(type="text" class="form-control" name="name" id="name" value=admin.name)
+                        .row
+                            .col-md-6
+                                .form-group
+                                    label(for="sex" class="field-label") Gender
+                                    select(class="form-control" name="sex" id="sex")
+                                        if admin.sex == 'Male'
+                                            option(value="Male" selected) Male
+                                            option(value="Female") Female
+                                           
+                                        else
+                                            option(value="Male") Male
+                                            option(value="Female" selected) Female
+                                      
+                            .col-md-6
+                                .form-group
+                                    label(for="email" class="field-label") Email
+                                    input(type="email" class="form-control" name="email" id="email" value=admin.email)
+                                    input(type="hidden" id="origin-email" value=admin.email) 
+                                    small(id="email-error-tip" class="form-text text-danger")
+                        .row
+                            .col-md-6
+                                .form-group
+                                    label(for="address" class="field-label") Address
+                                    input(type="text" class="form-control" name="address" id="address" value=admin.address)
+                        .form-group
+                            small(id="error-tips" class="form-text text-danger")
+                            button(type="button" class="btn lbtn" id="update-btn") Update
+block scriptblock
+    script(text="text/javascript").
+        $(function() {
+            $("#update-btn").on("click", async function() {
+                let name = $("#name").val();
+                let sex = $("#sex").val();
+                let email = $("#email").val();
+                let address = $("#address").val();
+                if (!email) {
+                    $("#email-error-tip").html("Email can't be empty!");
+                    return;
+                } else {
+                    let originEmail = $("#origin-email").val();
+                    if (originEmail !== email) {
+                        let res = await request({
+                            url: `/admin/exists.json/email/${email}`,
+                            method: "GET"
+                        });
+                        if (200 !== res.code) {
+                            $("#email-error-tip").html(res.msg);
+                            return;
+                        }
+                    }
+                }
+                let result = await request({
+                    url: "/admin/profile/update.json",
+                    method: "PUT",
+                    param: {
+                        name: name,
+                        sex: sex,
+                        email: email,
+                        address: address
+                    }
+                });
+                console.log("result is: ", result);
+                let _html = "";
+                if (204 === result.code) {
+                    _html += "<div class='alert alert-success alert-dismissible fade show' role='alert'>";
+                } else {
+                    _html += "<div class='alert alert-danger alert-dismissible fade show' role='alert'>";
+                }
+                _html += result.msg;
+                _html += '<button type="button" class="close" data-dismiss="alert" aria-label="Close">';
+                _html += '<span aria-hidden="true">&times;</span>';
+                _html += "</button>";
+                _html += "</div>";
+                $("#tips").html(_html);
+            });
+        });

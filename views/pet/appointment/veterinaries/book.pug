@@ -1,0 +1,122 @@
+extends ../../../layout
+
+block styleblock
+    style(type="text/css").
+
+block content
+    include ../../../header.pug
+    .container-fluid.pmargin-vertical-20.w-75
+        nav.bg-white(aria-label="breadcrumb")
+            ol.breadcrumb.bg-white
+                li.breadcrumb-item
+                    a.link.breadcrumb-item-font-size(href="/pet/edit.html/"+pet.id)=pet.name
+                li.breadcrumb-item
+                    a.link.breadcrumb-item-font-size(href="/pet/appointment/"+pet.id+"/veterinaries/list.html") Veterinary List
+                li.breadcrumb-item.active(aria-current="page")=veterinary.email
+        .card.scard
+            .card-body
+                #card-content.content
+                    form#appointment-form(action="/pet/appointment/book.html" method="POST")
+                        .form-group
+                            label(class="field-label") Date Time
+                            .row
+                                .col-md-6
+                                    input#datepicker.form-control(type="date" name="appointment_date")
+                                    input(type="hidden" name="pet_id" value=pet.id)#pet-id
+                                    input#veterinary-id(type="hidden" name="veterinary_id" value=veterinary.id)
+                                    small#datepicker-error.text-danger 
+                                .col-md-6
+                                    select#time-period.form-control(name="appointment_time_period")
+                                    small#time-period-error.text-danger
+                        .form-group
+                            label(class="field-label" for="description") Description
+                            textarea#description.form-control(style="resize:none;")
+                        .form-group
+                            button(type="button")#book-appointment-btn.btn.lbtn Book
+
+block scriptblock
+    script(type="text/javascript" src="/js/pet.js")
+    script.
+        $(function() {
+            //- alert("haha")
+            $("#datepicker").on("change", async function() {
+                let appointmentDate = $(this).val();
+                let veterinaryId = $("#veterinary-id").val();
+                let timePeriods = {
+                    "09:00-09:30": "",
+                    "09:30-10:00": "",
+                    "10:00-10:30": "",
+                    "10:30-11:00": "",
+                    "11:00-11:30": "",
+                    "11:30-12:00": "",
+                    "12:00-12:30": "",
+                    "12:30-13:00": "",
+                    "13:00-13:30": "",
+                    "13:30-14:00": "",
+                    "14:00-14:30": "",
+                    "14:30-15:00": "",
+                    "15:00-15:30": "",
+                    "15:30-16:00": "",
+                    "16:00-16:30": "",
+                    "16:30-17:00": "",
+                    "17:00-17:30": "",
+                };
+                let res = await request({url: `/pet/appointment/search.json/${veterinaryId}/${appointmentDate}`});
+                console.log("res is: ", res);
+                if (200 === res.code) {
+                    if (res.timePeriods && res.timePeriods.length > 0) {
+                        for (const timePeriod of res.timePeriods) {
+                            timePeriods[timePeriod] = "disabled";
+                        }
+                    }
+                    //- console.log("time period: ", timePeriods);
+                    let selectOptions = "";
+                    for (let key of Object.keys(timePeriods)) {
+                        let val = timePeriods[key];
+                        if (val) {
+                            selectOptions += `<option value='${key}' ${val}>${key}</option>`;
+                        } else {
+                            selectOptions += `<option value='${key}'>${key}</option>`;
+                        }
+                    }
+                    $("#time-period").html(selectOptions);
+                }
+            });
+
+            $("#book-appointment-btn").on("click", function() {
+                let petId = $("#pet-id").val();
+                let veterinaryId = $("#veterinary-id").val();
+                let appointmentDate = $("#datepicker").val();
+                let appointmentTimePeriod = $("#time-period").val();
+                let description = $("#description").val();
+                if (!appointmentDate) {
+                    $("#datepicker-error").html("Please choose your appointment date!");
+                    return;
+                }
+                if (!appointmentTimePeriod) {
+                    $("#time-period-error").html("Please choose your appointment time period!");
+                    return;
+                }
+                $.post({
+                    url: `/pet/appointment/book.json`,
+                    data: {
+                        pet_id: petId,
+                        veterinary_id: veterinaryId,
+                        description: description,
+                        appointment_date: appointmentDate,
+                        appointment_time_period: appointmentTimePeriod,
+                    },
+                    success: function (res) {
+                        let _html = "";
+                        if (200 === res.code) {
+                            _html += "<div class='alert alert-success'>" + res.msg;
+                        } else {
+                            _html += "<div class='alert alert-danger'>" + res.msg;
+                        }
+                        _html += "<a class='btn lbtn' style='margin-left:10px;' href='/pet/appointment/"+petId+"/veterinaries/list.html'>Go back</a> ";
+                        _html += "</div>";
+                        $("#card-content").html(_html);
+                    },
+                });
+            });
+        });

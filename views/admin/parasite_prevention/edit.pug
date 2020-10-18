@@ -1,0 +1,49 @@
+extends ../../layout
+
+block content
+    include ../header.pug
+    .container-fluid.pmargin-vertical-20(style="width: 60%")
+        .card.scard
+            .card-body
+                .card-title.scard-title.underline-2 Add Pet Category
+                .content
+                    form(action="/admin/pet_parasite_prevention_product/edit.html" id="product-form" method="POST")
+                        .form-group
+                            label.field-label(for="name") Name
+                            input(type="hidden" name="pid" value=product.id)
+                            input#name.form-control(type="text" name="name" placeholder="pet parasite prevention product name" value=product.name)
+                            input#origin-product-name(type="hidden" value=product.name)
+                            small#name-error-tip.text-danger
+                        .form-group
+                            label.field-label(for="description") Description
+                            input#description.form-control(type="text" name="description" placeholder="description" value=product.description)
+                        .form-group
+                            button#update-product-btn.btn.lbtn(type="button") Update
+                            a.btn.lbtn.ml-2(href="/admin/pet_parasite_prevention_product/index.html") Back
+block scriptblock
+    script(text="text/javascript").
+        $(function() {
+            $("#update-product-btn").on("click", async function() {
+                let name = $("#name").val();
+                let originName = $("#origin-product-name").val();
+                let description = $("#description").val();
+                if (!name) {
+                    $("#name-error-tip").html("Pet parasite prevention product name can't be empty!");
+                    return;
+                } else {
+                    if (name !== originName) {
+                        let res = await request({
+                            url: `/admin/pet_parasite_prevention_product/exists.json/${name}`,
+                            method: "GET"
+                        });
+                        if (200 !== res.code) {
+                            $("#name-error-tip").html(res.msg);
+                            return;
+                        } else {
+                            $("#name-error-tip").html("");
+                        }
+                    }
+                }
+                $("#product-form").submit();
+            });
+        });
